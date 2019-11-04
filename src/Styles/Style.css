@@ -1,0 +1,13 @@
+* {
+  /* font-family: 'Quicksand', sans-serif; */
+  font-family: 'McLaren', cursive;
+}
+
+.top-cover {
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+  height: 400px;
+  width: 100%;
+}

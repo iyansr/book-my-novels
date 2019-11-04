@@ -1,0 +1,62 @@
+.carousel .carousel-item {
+  width: 40% !important;
+}
+
+.carousel {
+  height: 350px !important;
+}
+
+/* #myCarousel {
+  top: -70px !important;
+} */
+
+.custom-card-img {
+  top: -40px !important;
+  width: 100% !important;
+  height: 300px !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+@media (max-width: 600px) {
+  .custom-card-img {
+    top: -40px !important;
+    width: 100% !important;
+    height: 300px !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+  }
+  .custom-title {
+    bottom: 40px !important;
+    background-color: RGBA(0, 0, 0, 0.4) !important;
+    height: 200px !important;
+    width: 500px !important;
+    font-weight: bold !important;
+    border-radius: 0 0 12px 12px !important;
+    font-size: 1rem !important;
+  }
+  .title-text-carousel {
+    text-overflow: clip !important;
+    overflow: visible !important;
+    font-size: 12px !important;
+    white-space: wrap !important;
+    width: 90% !important;
+  }
+}
+
+.custom-title {
+  bottom: 40px !important;
+  background-color: RGBA(0, 0, 0, 0.4) !important;
+  height: 50% !important;
+  width: 100% !important;
+  font-weight: bold !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+.title-text-carousel {
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  font-size: 1.7em !important;
+  white-space: nowrap !important;
+  width: 90% !important;
+}
