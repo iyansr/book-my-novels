@@ -19,15 +19,24 @@
 }
 
 @media (max-width: 600px) {
+  .carousel .carousel-item {
+    width: 70% !important;
+  }
+  .carousel {
+    height: 280px !important;
+  }
+  .carousel-card {
+    height: 100px !important;
+  }
   .custom-card-img {
-    top: -40px !important;
+    top: -70px !important;
     width: 100% !important;
-    height: 300px !important;
+    height: 200px !important;
     object-fit: cover !important;
     border-radius: 12px !important;
   }
   .custom-title {
-    bottom: 40px !important;
+    margin-bottom: 30px !important;
     background-color: RGBA(0, 0, 0, 0.4) !important;
     height: 200px !important;
     width: 500px !important;
