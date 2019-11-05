@@ -4,6 +4,7 @@ import Carousel from '../Components/Carousel/Carousel';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
 import books from '../Helpers/books';
+import Modal from '../Components/Modal/Modal';
 
 import M from 'materialize-css';
 
@@ -21,6 +22,8 @@ class Home extends Component {
   render() {
     return (
       <div className='home-page'>
+        <Modal modalId='addNovelModal' title='Add Novel'></Modal>
+
         <NaviBar />
         <Carousel />
         <div className='container'>
