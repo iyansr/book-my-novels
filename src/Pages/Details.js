@@ -14,17 +14,17 @@ class Details extends Component {
             backgroundImage: `url('https://ssvr.bukukita.com/babacms/displaybuku/105385_f.jpg')`
           }}>
           <nav className='transparent z-depth-0'>
-            <div class='nav-wrapper transparent z-depth-0'>
+            <div className='nav-wrapper transparent z-depth-0'>
               <Link
                 to='/'
-                class='btn-floating btn-large transparent z-depth-0'
+                className='btn-floating btn-large transparent z-depth-0'
                 style={{
                   margin: '10px 0 0 20px'
                 }}>
-                <i class='material-icons'>arrow_back</i>
+                <i className='material-icons'>arrow_back</i>
               </Link>
 
-              <ul id='nav-mobile' class='right hide-on-med-and-down'>
+              <ul id='nav-mobile' className='right hide-on-med-and-down'>
                 <li>
                   <a href='#'>Edit</a>
                 </li>
