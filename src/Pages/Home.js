@@ -18,11 +18,30 @@ class Home extends Component {
     };
     M.Carousel.init(elems, options);
   }
+
   render() {
+    const cardMapping = books.map((book, index) => {
+      return (
+        <Cards
+          alt={book.title.trim()}
+          to={{
+            pathname: `details/${index}`,
+            state: {
+              title: book.title,
+              image_url: book.image_url,
+              desc: book.description
+            }
+          }}
+          key={index}
+          title={book.title}
+          img={book.image_url}
+          description={book.description}
+        />
+      );
+    });
     return (
       <div className='home-page'>
         <Modal modalId='addNovelModal' title='Add Novel'></Modal>
-
         <NaviBar />
         <Carousel />
         <div className='container'>
@@ -33,22 +52,8 @@ class Home extends Component {
             }}>
             List Novels
           </h4>
-          <div className='row'>
-            {books.map((book, index) => {
-              return (
-                <Cards
-                  alt={book.title.trim()}
-                  to='/details/12'
-                  key={index}
-                  title={book.title}
-                  img={book.image_url}
-                  description={book.description}
-                />
-              );
-            })}
-          </div>
+          <div className='row'>{cardMapping}</div>
         </div>
-
         <Footer />
       </div>
     );

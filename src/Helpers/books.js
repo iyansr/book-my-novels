@@ -22,6 +22,18 @@ const books = [
       'Buku ini dipersembahkan buat mereka yang meyakini the magic of childhood memories, dan khususnya juga buat siapa saja yang masih meyakini adanya pintu keajaiban lain untuk mengubah dunia: pendidikan.'
   },
   {
+    title: 'DILAN dia Adalah Dilanku Tahun 1990',
+    author: 'Pidi Baiq',
+    image_url:
+      'https://bukubukularis.com/wp-content/uploads/2015/12/dilan-edisi-revisi.jpg',
+    description: `“Milea kamu cantik, tapi aku belum mencintaimu. Enggak tahu kalau sore. Tunggu aja.”
+(Dilan 1990)
+
+“Milea jangan pernah bilang ke aku ada yang menyakitimu., nanti besoknya, orang itu akan hilang.” (Dilan 1990)
+
+“Cinta sejati adalah kenyamanan, kepercayaan, dan dukungan. Kalau kamu tidak setuju, aku tidak peduli. “ (Milea 1990)`
+  },
+  {
     title: 'Kenangan Terindah',
     author: 'Tri Okta Hesti Ningrum',
     image_url: 'https://ssvr.bukukita.com/babacms/displaybuku/100198_f.jpg',

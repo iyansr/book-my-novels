@@ -4,7 +4,7 @@
 }
 
 .top-cover {
-  background-position: top center;
+  background-position: 0% 40%;
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0 auto;
@@ -23,12 +23,12 @@
 
 .detail-container {
   margin-left: 200px !important;
-  margin-top: 50px !important;
-  padding-right: 200px !important;
+  margin-top: -50px !important;
+  padding-right: 400px !important;
   text-align: justify !important;
 }
 .detail-container p {
-  font-size: 22px;
+  font-size: 20px;
 }
 .detail-container h4 {
   width: 600px !important;
@@ -41,7 +41,7 @@
 }
 
 .btn-borrow {
-  transform: translate(150px, 600px);
+  transform: translate(150px, 550px);
 }
 
 .fixed-action-btn {
