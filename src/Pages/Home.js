@@ -14,7 +14,6 @@ class Home extends Component {
 
     const elems = document.querySelectorAll('.carousel');
     const options = {
-      shift: 130,
       duration: 100
     };
     M.Carousel.init(elems, options);

@@ -35,50 +35,25 @@ class Details extends Component {
             </div>
           </nav>
 
-          <div
-            className='card right z-depth-4'
-            style={{
-              width: '180px',
-              marginTop: '8%',
-              marginRight: '5%',
-              borderRadius: '12px'
-            }}>
+          <div className='card right z-depth-4 detail-card-right'>
             <div className='card-image'>
               <img
                 src='https://ssvr.bukukita.com/babacms/displaybuku/105385_f.jpg'
-                height='290px'
                 style={{ borderRadius: '12px' }}
               />
             </div>
           </div>
-          <button
-            className='btn-large z-depth-3 right'
-            style={{
-              transform: 'translate(150px, 600px)'
-            }}>
+          <button className='btn-large z-depth-3 right btn-borrow' style={{}}>
             Borrow
           </button>
         </div>
         {/* asdads */}
-        <div
-          className='container left'
-          style={{
-            marginLeft: '200px',
-            marginTop: '-60px',
-            paddingRight: '200px',
-            textAlign: 'justify'
-          }}>
-          <h5
-            className='right light-green-text text-accent-4'
-            style={{
-              transform: 'translate(0, 50px)'
-            }}>
+        <div className='left detail-container'>
+          <h5 className='right light-green-text text-accent-4 text-status'>
             Available
           </h5>
           <a className='btn z-depth-0'>Comedy</a>
-          <h4 style={{ width: '600px', textAlign: 'left' }}>
-            Head Over Heels : Sebuah Romansa Bening
-          </h4>
+          <h4>Head Over Heels : Sebuah Romansa Bening</h4>
           <span style={{ fontWeight: 'bold' }}>Agustus 2017</span>
           <p
             style={{
@@ -92,6 +67,11 @@ class Details extends Component {
             menjungkirbalikkan semua, Btari dan Milo tak pernah menduga, cinta
             bisa menaklukan keduanya.
           </p>
+        </div>
+        <div className='fixed-action-btn'>
+          <a href='#' className='btn-floating btn-large'>
+            <i className='large material-icons'>add</i>
+          </a>
         </div>
       </div>
     );
