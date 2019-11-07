@@ -20,7 +20,9 @@ const NavbarContent = () => {
             filter: 'brightness(0) invert(1)'
           }}
         />
-        <strong>Novel Library</strong>
+        <strong style={{ fontFamily: `'Lobster', cursive` }}>
+          Novel Library
+        </strong>
       </Link>
 
       <ul className='left hide-on-med-and-down'>
