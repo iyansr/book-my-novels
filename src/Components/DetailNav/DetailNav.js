@@ -17,10 +17,28 @@ const DetailNav = props => {
 
         <ul className='right'>
           <li>
-            <a href={`${index}#`}>Edit</a>
+            <a
+              className='modal-trigger'
+              data-target='editNovelModal'
+              href={`${index}#`}
+              style={{
+                fontWeight: 'bolder',
+                fontSize: '24px',
+                textShadow: '2px 2px black'
+              }}>
+              Edit
+            </a>
           </li>
           <li>
-            <a href={`${index}#`}>Delete</a>
+            <a
+              href={`${index}#`}
+              style={{
+                fontWeight: 'bolder',
+                fontSize: '24px',
+                textShadow: '2px 2px black'
+              }}>
+              Delete
+            </a>
           </li>
         </ul>
       </div>
