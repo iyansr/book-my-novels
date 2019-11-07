@@ -7,13 +7,14 @@ import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
 import books from '../Helpers/books';
 
 class Details extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       book: books[0],
-      id: 0
+      id: 0,
     };
   }
+
 
   componentDidMount() {
     const { id_book } = this.props.match.params;
@@ -22,7 +23,6 @@ class Details extends Component {
       book: books[id_book],
       id: id_book
     });
-    console.log(books[id_book]);
   }
   render() {
     const { title, description, image_url, date, status } = this.state.book;
@@ -34,8 +34,8 @@ class Details extends Component {
           style={{
             backgroundImage: `url('${image_url}')`
           }}>
-          <DetailNav />
-          <FloatingCard image_url={image_url} />
+          <DetailNav click={this.goBack} index={this.state.id} />
+          <FloatingCard image_url={image_url} alt={title.trim()} />
 
           <button
             className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
@@ -44,6 +44,7 @@ class Details extends Component {
         </div>
         {/* asdads */}
         <ContainerDetail
+        index={this.state.id}
           desc={description}
           title={title}
           date={date}
