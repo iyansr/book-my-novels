@@ -10,13 +10,55 @@ const Modal = props => {
           <form action='#'>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>person</i>
-              <input id='last_name' type='text' className='validate' />
-              <label htmlFor='last_name'>Last Name</label>
+              <input
+                id='title'
+                type='text'
+                className='validate'
+                placeholder='Title'
+              />
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
-              <input id='second' type='text' className='validate' />
-              <label htmlFor='second'>Last Name</label>
+              <input
+                id='image_url'
+                type='text'
+                className='validate'
+                placeholder='Author'
+              />
+            </div>
+            <div className='input-field col m12'>
+              <i className='material-icons prefix'>account_circle</i>
+              <input
+                id='image_url'
+                type='text'
+                className='validate'
+                placeholder='Image URL'
+              />
+            </div>
+            <div className='input-field col m12'>
+              <i className='material-icons prefix'>account_circle</i>
+              <input
+                id='image_url'
+                type='text'
+                className='validate'
+                placeholder='Date'
+              />
+            </div>
+            <div className='input-field col m12'>
+              <i className='material-icons prefix'>account_circle</i>
+              <select name='status' id='status'>
+                <option value='0'>Empty</option>
+                <option value='1'>Available</option>
+              </select>
+            </div>
+            <div className='input-field col m12'>
+              <i className='material-icons prefix'>account_circle</i>
+              <input
+                id='image_url'
+                type='text'
+                className='validate'
+                placeholder='Year'
+              />
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -24,16 +66,19 @@ const Modal = props => {
                 id='third'
                 type='text'
                 className='materialize-textarea'
+                placeholder='Description'
               />
-              <label htmlFor='third'>Last Name</label>
             </div>
           </form>
         </div>
       </div>
       <div className='modal-footer'>
-        <a href='#!' className='modal-close btn-flat yellow'>
-          Save
-        </a>
+        <button
+          className='modal-close btn-flat yellow'
+          style={{ marginRight: '20px' }}>
+          Close
+        </button>
+        <button className='modal-close btn-flat yellow'>Save</button>
       </div>
     </div>
   );
