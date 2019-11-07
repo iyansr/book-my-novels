@@ -11,12 +11,12 @@ const Modal = props => {
             <div className='input-field col m12'>
               <i className='material-icons prefix'>person</i>
               <input id='last_name' type='text' className='validate' />
-              <label for='last_name'>Last Name</label>
+              <label htmlFor='last_name'>Last Name</label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
               <input id='second' type='text' className='validate' />
-              <label for='second'>Last Name</label>
+              <label htmlFor='second'>Last Name</label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -25,7 +25,7 @@ const Modal = props => {
                 type='text'
                 className='materialize-textarea'
               />
-              <label for='third'>Last Name</label>
+              <label htmlFor='third'>Last Name</label>
             </div>
           </form>
         </div>

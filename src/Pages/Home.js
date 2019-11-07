@@ -24,14 +24,7 @@ class Home extends Component {
       return (
         <Cards
           alt={book.title.trim()}
-          to={{
-            pathname: `details/${index}`,
-            state: {
-              title: book.title,
-              image_url: book.image_url,
-              desc: book.description
-            }
-          }}
+          to={`details/${index}`}
           key={index}
           title={book.title}
           img={book.image_url}
