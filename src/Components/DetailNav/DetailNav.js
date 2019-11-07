@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const DetailNav = () => {
+const DetailNav = props => {
+  const { index } = props;
   return (
     <nav className='transparent z-depth-0'>
       <div className='nav-wrapper transparent z-depth-0'>
@@ -16,14 +17,13 @@ const DetailNav = () => {
 
         <ul className='right'>
           <li>
-            <a href='#'>Edit</a>
+            <a href={`${index}#`}>Edit</a>
           </li>
           <li>
-            <a href='#'>Delete</a>
+            <a href={`${index}#`}>Delete</a>
           </li>
         </ul>
       </div>
-      {/*id='nav-mobile' className='right hide-on-med-and-down'*/}
     </nav>
   );
 };

@@ -37,7 +37,9 @@ const Cards = props => {
             }}>
             {title}
           </Link>
-          <p className='block-with-text '>{description}</p>
+          <p
+            className='block-with-text '
+            dangerouslySetInnerHTML={{ __html: description }}></p>
         </div>
       </div>
     </div>
