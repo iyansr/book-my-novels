@@ -12,12 +12,13 @@ const AddModal = props => {
     genre,
     onChange,
     onSubmit,
-    modalId
+    modalId,
+    modalTitle
   } = props;
   return (
     <div id={modalId} className='modal'>
       <div className='modal-content'>
-        <h4>Add Novel</h4>
+        <h4>{modalTitle}</h4>
         <div className='row'>
           <form onSubmit={onSubmit}>
             <div className='input-field col m12'>

@@ -145,6 +145,7 @@ class Details extends Component {
           }}
         />
         <AddModal
+          modalTitle='Edit Novel'
           modalId='editNovelModal'
           genre={genre}
           title={title}

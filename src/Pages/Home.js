@@ -145,6 +145,7 @@ class Home extends Component {
           </div>
         </div>
         <AddModal
+          modalTitle='Add Novel'
           modalId='addNovelModal'
           genre={this.state.tempBook.genre}
           title={this.state.tempBook.title}
