@@ -9,11 +9,13 @@ const AddModal = props => {
     year,
     description,
     status,
+    genre,
     onChange,
-    onSubmit
+    onSubmit,
+    modalId
   } = props;
   return (
-    <div id='addNovelModal' className='modal'>
+    <div id={modalId} className='modal'>
       <div className='modal-content'>
         <h4>Add Novel</h4>
         <div className='row'>
@@ -29,6 +31,9 @@ const AddModal = props => {
                 value={title}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='title'>
+                Title
+              </label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>person</i>
@@ -41,6 +46,9 @@ const AddModal = props => {
                 value={author}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='author'>
+                Author
+              </label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -53,6 +61,9 @@ const AddModal = props => {
                 value={image_url}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='image_url'>
+                Image Url
+              </label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -65,6 +76,24 @@ const AddModal = props => {
                 value={date}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='date'>
+                Date
+              </label>
+            </div>
+            <div className='input-field col m12'>
+              <i className='material-icons prefix'>account_circle</i>
+              <input
+                name='genre'
+                id='genre'
+                type='text'
+                className='validate'
+                placeholder='Genre'
+                value={genre}
+                onChange={onChange}
+              />
+              <label className='active' htmlFor='genre'>
+                Genre
+              </label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -77,6 +106,9 @@ const AddModal = props => {
                 value={status}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='status'>
+                Status
+              </label>
             </div>
 
             <div className='input-field col m12'>
@@ -90,6 +122,9 @@ const AddModal = props => {
                 value={year}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='year'>
+                Year
+              </label>
             </div>
             <div className='input-field col m12'>
               <i className='material-icons prefix'>account_circle</i>
@@ -102,9 +137,14 @@ const AddModal = props => {
                 value={description}
                 onChange={onChange}
               />
+              <label className='active' htmlFor='description'>
+                Description
+              </label>
             </div>
             <div className='modal-footer'>
-              <button type='submit' className='btn waves-effect waves-light'>
+              <button
+                type='submit'
+                className='modal-close btn waves-effect waves-light'>
                 Save
               </button>
             </div>

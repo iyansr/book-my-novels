@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const DetailNav = props => {
-  const { index, swalClick } = props;
+  const { index, swalClick, to } = props;
   return (
     <nav className='transparent z-depth-0'>
       <div className='nav-wrapper transparent z-depth-0'>
         <Link
-          to='/'
+          to={to}
           className='btn-floating btn-large transparent z-depth-0'
           style={{
             margin: '10px 0 0 20px'

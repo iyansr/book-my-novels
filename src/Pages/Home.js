@@ -12,7 +12,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: props.book, //[...books],
+      book: props.book,
       tempBook: {
         title: '',
         author: '',
@@ -20,13 +20,22 @@ class Home extends Component {
         date: '',
         year: '',
         description: '',
-        status: ''
+        status: '',
+        genre: ''
       }
     };
     this.onClick = this.onClick.bind(this);
   }
   componentDidMount() {
     M.AutoInit();
+
+    const { newBook, isEdit } = this.props.location.state;
+
+    if (isEdit) {
+      this.setState({
+        book: newBook
+      });
+    }
 
     const elems = document.querySelectorAll('.carousel');
     const options = {
@@ -128,6 +137,8 @@ class Home extends Component {
           </div>
         </div>
         <AddModal
+          modalId='addNovelModal'
+          genre={this.state.tempBook.genre}
           title={this.state.tempBook.title}
           author={this.state.tempBook.author}
           image_url={this.state.tempBook.image_url}
