@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import swal from '@sweetalert/with-react';
 
 const DetailNav = props => {
-  const { index } = props;
+  const { index, swalClick } = props;
   return (
     <nav className='transparent z-depth-0'>
       <div className='nav-wrapper transparent z-depth-0'>
@@ -38,11 +37,7 @@ const DetailNav = props => {
                 fontSize: '24px',
                 textShadow: '2px 2px black'
               }}
-              onClick={swal(
-                'Succes Delete',
-                `Succes Delete ${title}`,
-                'success'
-              )}>
+              onClick={swalClick}>
               Delete
             </a>
           </li>

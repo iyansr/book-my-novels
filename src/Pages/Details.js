@@ -6,6 +6,7 @@ import FloatingCard from '../Components/FloatingCard/FloatingCard';
 import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
 import books from '../Helpers/books';
 import EditModal from '../Components/Modal/EditModal';
+import swal from 'sweetalert';
 
 class Details extends Component {
   constructor(props) {
@@ -41,6 +42,10 @@ class Details extends Component {
     this.setState({});
   }
 
+  swalClick(t) {
+    swal('Succes Delete', `Succes Delete ${t}`, 'success');
+  }
+
   render() {
     const {
       title,
@@ -59,7 +64,12 @@ class Details extends Component {
           style={{
             backgroundImage: `url('${image_url}')`
           }}>
-          <DetailNav index={this.state.id} title={title} />
+          <DetailNav
+            index={this.state.id}
+            swalClick={() => {
+              this.swalClick(title);
+            }}
+          />
           <FloatingCard image_url={image_url} alt={title.trim()} />
           <EditModal
             modalId='editNovelModal'
