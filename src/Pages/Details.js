@@ -5,7 +5,7 @@ import DetailNav from '../Components/DetailNav/DetailNav';
 import FloatingCard from '../Components/FloatingCard/FloatingCard';
 import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
 import books from '../Helpers/books';
-import Modal from '../Components/Modal/Modal';
+import EditModal from '../Components/Modal/EditModal';
 
 class Details extends Component {
   constructor(props) {
@@ -20,7 +20,8 @@ class Details extends Component {
         author: '',
         year: ''
       },
-      id: 0
+      id: 0,
+      testBook: books
     };
   }
 
@@ -35,6 +36,11 @@ class Details extends Component {
     });
   }
 
+  onClick(e) {
+    e.preventDefault();
+    this.setState({});
+  }
+
   render() {
     const {
       title,
@@ -46,7 +52,6 @@ class Details extends Component {
       year
     } = this.state.book;
     const btnStatus = status === 'Available' ? '' : 'disabled';
-    const statusVal = status === 'Available' ? 1 : 0;
     return (
       <div>
         <div
@@ -56,16 +61,24 @@ class Details extends Component {
           }}>
           <DetailNav index={this.state.id} />
           <FloatingCard image_url={image_url} alt={title.trim()} />
-          <Modal
+          <EditModal
             modalId='editNovelModal'
             title='Edit Novel'
             author={author}
-            novelTitle={title}
+            title={title}
             image_url={image_url}
             date={date}
-            bookStatus={statusVal}
+            status={status}
             year={year}
             description={description}
+            // onClick={}
+            handleChange={e => {
+              const { name, value } = e.target;
+
+              this.setState({
+                book: { ...this.state.book, [name]: value }
+              });
+            }}
           />
           <button
             className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
@@ -83,7 +96,7 @@ class Details extends Component {
         <div className='fixed-action-btn'>
           <a
             href={`/details/${this.state.id}#`}
-            className='btn-floating btn-large'>
+            className={`btn-floating btn-large ${btnStatus}`}>
             <i className='large material-icons'>add</i>
           </a>
         </div>

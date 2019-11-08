@@ -4,11 +4,17 @@ import Carousel from '../Components/Carousel/Carousel';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
 import books from '../Helpers/books';
-import Modal from '../Components/Modal/Modal';
+import AddModal from '../Components/Modal/AddModal';
 
 import M from 'materialize-css';
 
 class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      book: [...books]
+    };
+  }
   componentDidMount() {
     M.AutoInit();
 
@@ -19,22 +25,18 @@ class Home extends Component {
     M.Carousel.init(elems, options);
   }
 
+  addNovel = novel => {
+    const { book } = this.state;
+
+    this.setState({ book: [novel, ...book] });
+  };
+
   render() {
-    const cardMapping = books.map((book, index) => {
-      return (
-        <Cards
-          alt={book.title.trim()}
-          to={`details/${index}`}
-          key={index}
-          title={book.title}
-          img={book.image_url}
-          description={book.description}
-        />
-      );
-    });
+    console.log(this.state.book);
+
     return (
       <div className='home-page'>
-        <Modal modalId='addNovelModal' title='Add Novel'></Modal>
+        <AddModal addNovel={this.addNovel} />
         <NaviBar />
         <Carousel />
         <div className='container'>
@@ -45,7 +47,20 @@ class Home extends Component {
             }}>
             List Novels
           </h4>
-          <div className='row'>{cardMapping}</div>
+          <div className='row'>
+            {books.map((book, index) => {
+              return (
+                <Cards
+                  alt={book.title.trim()}
+                  to={`details/${index}`}
+                  key={index}
+                  title={book.title}
+                  img={book.image_url}
+                  description={book.description}
+                />
+              );
+            })}
+          </div>
         </div>
         <Footer />
       </div>
