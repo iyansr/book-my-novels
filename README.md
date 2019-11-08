@@ -22,7 +22,7 @@ A Collection Of Novels Using ReactJS
   </a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg"></a>
   <a href="#">
-    <img title="Repo Size" src="https://img.shields.io/github/repo-size/iyansr/novel-library-api">
+    <img title="Repo Size" src="https://img.shields.io/github/repo-size/iyansr/novel-library-web">
   </a>
 </p>
 
@@ -60,8 +60,7 @@ $ npm start
 ## Stacks
 
 - ReactJS
-  <!-- - MySQL -->
-  <!-- - ExpressJS -->
+- Materialize CSS
 
 ## Dependencies
 
@@ -82,13 +81,17 @@ $ npm start
 
 ## Screenshots
 
-- Home
+![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-21_onuasj.png)
 
-![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1572888385/git/home_eywngi.png)
+![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-24_nc2ba5.png)
 
-- Details
+![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-29_iqc3ih.png)
 
-![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1572889398/git/Screenshot_from_2019-11-05_00-43-06_cu71sy.png)
+![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-42_ngty4n.png)
+
+![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-33-01_pz5m4z.png)
+
+![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-33-05_zedbbf.png)
 
 ---
 
