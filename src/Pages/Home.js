@@ -29,12 +29,19 @@ class Home extends Component {
   componentDidMount() {
     M.AutoInit();
 
-    const { newBook, isEdit } = this.props.location.state;
+    if (this.props.location.state) {
+      const { newBook, isEdit, isDelete } = this.props.location.state;
 
-    if (isEdit) {
-      this.setState({
-        book: newBook
-      });
+      if (isEdit) {
+        this.setState({
+          book: newBook
+        });
+      }
+      if (isDelete) {
+        this.setState({
+          book: newBook
+        });
+      }
     }
 
     const elems = document.querySelectorAll('.carousel');
@@ -124,7 +131,8 @@ class Home extends Component {
                   to={{
                     pathname: `details/${index}`,
                     state: {
-                      book: this.state.book
+                      book: this.state.book,
+                      isEdit: false
                     }
                   }}
                   key={index}

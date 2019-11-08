@@ -5,7 +5,7 @@ import DetailNav from '../Components/DetailNav/DetailNav';
 import FloatingCard from '../Components/FloatingCard/FloatingCard';
 import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
 import AddModal from '../Components/Modal/AddModal';
-import swal from 'sweetalert';
+import AlertModal from '../Components/Modal/AlertModal';
 
 class Details extends Component {
   constructor(props) {
@@ -23,22 +23,26 @@ class Details extends Component {
         status: '',
         genre: ''
       },
-      isEdit: false
+      isEdit: false,
+      isDelete: false
     };
   }
 
   componentDidMount() {
     M.AutoInit();
 
-    const { id_book } = this.props.match.params;
-    const { book } = this.props.location.state;
-    console.log({ book: book });
+    if (this.props.match.params) {
+      const { id_book } = this.props.match.params;
+      const { book, isEdit } = this.props.location.state;
+      console.log({ book: book });
 
-    this.setState({
-      book,
-      id: id_book,
-      detail: book[id_book]
-    });
+      this.setState({
+        book,
+        id: id_book,
+        detail: book[id_book],
+        isEdit
+      });
+    }
   }
 
   handleChange = e => {
@@ -82,9 +86,14 @@ class Details extends Component {
     });
   };
 
-  swalClick(t) {
-    swal('Succes Delete', `Succes Delete ${t}`, 'success');
-  }
+  deleteHandler = () => {
+    const { id_book } = this.props.match.params;
+    const tempArray = this.state.book.slice();
+    tempArray.splice(id_book, 1);
+    this.setState({
+      book: tempArray
+    });
+  };
 
   render() {
     console.log({ newbook: this.state.book });
@@ -108,6 +117,7 @@ class Details extends Component {
             backgroundImage: `url('${image_url}')`
           }}>
           <DetailNav
+            onClick={this.deleteHandler}
             to={{
               pathname: '/',
               state: {
@@ -116,9 +126,6 @@ class Details extends Component {
               }
             }}
             index={this.state.id}
-            swalClick={() => {
-              this.swalClick(title);
-            }}
           />
           <FloatingCard image_url={image_url} alt={title.trim()} />
 
@@ -127,6 +134,16 @@ class Details extends Component {
             Borrow
           </button>
         </div>
+        <AlertModal
+          title={title}
+          to={{
+            pathname: '/',
+            state: {
+              newBook: this.state.book,
+              isDelete: true
+            }
+          }}
+        />
         <AddModal
           modalId='editNovelModal'
           genre={genre}
