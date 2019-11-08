@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NaviBar from '../Components/Navbar/Navbar';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
-import books from '../Helpers/books';
 import AddModal from '../Components/Modal/AddModal';
 import CarouselCard from '../Components/Carousel/Card';
 import '../Components/Carousel/Carousel.css';
@@ -10,10 +9,10 @@ import '../Components/Carousel/Carousel.css';
 import M from 'materialize-css';
 
 class Home extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      book: [...books],
+      book: props.book, //[...books],
       tempBook: {
         title: '',
         author: '',
@@ -113,7 +112,12 @@ class Home extends Component {
               return (
                 <Cards
                   alt={book.title.trim()}
-                  to={`details/${index}`}
+                  to={{
+                    pathname: `details/${index}`,
+                    state: {
+                      book: this.state.book
+                    }
+                  }}
                   key={index}
                   title={book.title}
                   img={book.image_url}

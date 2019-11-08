@@ -12,17 +12,17 @@ class Details extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: {
+      book: null,
+      id: 0,
+      detail: {
         title: '',
-        description: '',
+        author: '',
         image_url: '',
         date: '',
-        status: '',
-        author: '',
-        year: ''
-      },
-      id: 0,
-      testBook: books
+        year: '',
+        description: '',
+        status: ''
+      }
     };
   }
 
@@ -30,10 +30,12 @@ class Details extends Component {
     M.AutoInit();
 
     const { id_book } = this.props.match.params;
+    const { book } = this.props.location.state;
 
     this.setState({
-      book: books[id_book],
-      id: id_book
+      book,
+      id: id_book,
+      detail: book[id_book]
     });
   }
 
@@ -55,7 +57,7 @@ class Details extends Component {
       status,
       author,
       year
-    } = this.state.book;
+    } = this.state.detail;
     const btnStatus = status === 'Available' ? '' : 'disabled';
     return (
       <div>
