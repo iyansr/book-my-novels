@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import swal from '@sweetalert/with-react';
 
 const DetailNav = props => {
   const { index } = props;
@@ -36,7 +37,12 @@ const DetailNav = props => {
                 fontWeight: 'bolder',
                 fontSize: '24px',
                 textShadow: '2px 2px black'
-              }}>
+              }}
+              onClick={swal(
+                'Succes Delete',
+                `Succes Delete ${title}`,
+                'success'
+              )}>
               Delete
             </a>
           </li>

@@ -59,7 +59,7 @@ class Details extends Component {
           style={{
             backgroundImage: `url('${image_url}')`
           }}>
-          <DetailNav index={this.state.id} />
+          <DetailNav index={this.state.id} title={title} />
           <FloatingCard image_url={image_url} alt={title.trim()} />
           <EditModal
             modalId='editNovelModal'
