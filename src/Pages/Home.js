@@ -132,7 +132,8 @@ class Home extends Component {
                     pathname: `details/${index}`,
                     state: {
                       book: this.state.book,
-                      isEdit: false
+                      isEdit: false,
+                      isDelete: false
                     }
                   }}
                   key={index}

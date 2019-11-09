@@ -97,6 +97,8 @@ class Details extends Component {
 
   render() {
     console.log({ newbook: this.state.book });
+    console.log({ isDelete: this.state.isDelete });
+    console.log({ isEdit: this.state.isEdit });
 
     const {
       title,
