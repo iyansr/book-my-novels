@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import NaviBar from '../Components/Navbar/Navbar';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
-import AddModal from '../Components/Modal/AddModal';
-import CarouselCard from '../Components/Carousel/Card';
-import '../Components/Carousel/Carousel.css';
+// import AddModal from '../Components/Modal/AddModal';
+// import CarouselCard from '../Components/Carousel/Card';
+// import '../Components/Carousel/Carousel.css';
 
 import M from 'materialize-css';
+// import Axios from 'axios';
+import {connect} from 'react-redux'
+import {novels} from '../Public/Redux/Actions/novels'
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      book: props.book,
+      book: [],
       tempBook: {
         title: '',
         author: '',
@@ -26,29 +29,25 @@ class Home extends Component {
     };
     this.onClick = this.onClick.bind(this);
   }
-  componentDidMount() {
+  async componentDidMount() {
     M.AutoInit();
 
-    if (this.props.location.state) {
-      const { newBook, isEdit, isDelete } = this.props.location.state;
+       const elems = document.querySelectorAll('.carousel');
+       const options = {
+         duration: 100
+       };
+       M.Carousel.init(elems, options);
 
-      if (isEdit) {
-        this.setState({
-          book: newBook
-        });
-      }
-      if (isDelete) {
-        this.setState({
-          book: newBook
-        });
-      }
-    }
 
-    const elems = document.querySelectorAll('.carousel');
-    const options = {
-      duration: 100
-    };
-    M.Carousel.init(elems, options);
+    await this.props.dispatch(novels.getNovels())
+
+    this.setState({
+      book: this.props.novels.novelData
+    });
+
+
+
+ 
   }
 
   handleChange = e => {
@@ -96,13 +95,13 @@ class Home extends Component {
   };
 
   render() {
-    console.log(this.state.book);
+    console.log({book: this.state.book});
 
     return (
       <div className='home-page'>
         <NaviBar />
 
-        <div className='carousel' id='myCarousel'>
+        {/* <div className='carousel' id='myCarousel'>
           {this.state.book.map((novel, index) => {
             return (
               <CarouselCard
@@ -114,7 +113,7 @@ class Home extends Component {
               />
             );
           })}
-        </div>
+        </div> */}
         <div className='container'>
           <h4
             style={{
@@ -128,14 +127,8 @@ class Home extends Component {
               return (
                 <Cards
                   alt={book.title.trim()}
-                  to={{
-                    pathname: `details/${index}`,
-                    state: {
-                      book: this.state.book,
-                      isEdit: false,
-                      isDelete: false
-                    }
-                  }}
+                  to={`details/${book.id}`}
+                    
                   key={index}
                   title={book.title}
                   img={book.image_url}
@@ -145,7 +138,7 @@ class Home extends Component {
             })}
           </div>
         </div>
-        <AddModal
+        {/* <AddModal
           modalTitle='Add Novel'
           modalId='addNovelModal'
           genre={this.state.tempBook.genre}
@@ -158,11 +151,17 @@ class Home extends Component {
           status={this.state.tempBook.status}
           onChange={this.handleChange}
           onSubmit={this.onClick}
-        />
+        /> */}
         <Footer />
       </div>
     );
   }
 }
 
-export default Home;
+const mapStateToProps = state => {
+  return{
+    novels: state.novels
+  }
+}
+
+export default connect(mapStateToProps)(Home)

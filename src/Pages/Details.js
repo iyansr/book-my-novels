@@ -7,6 +7,9 @@ import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
 import AddModal from '../Components/Modal/AddModal';
 import AlertModal from '../Components/Modal/AlertModal';
 
+import { connect } from 'react-redux';
+import { novels } from '../Public/Redux/Actions/novels';
+
 class Details extends Component {
   constructor(props) {
     super(props);
@@ -28,21 +31,32 @@ class Details extends Component {
     };
   }
 
-  componentDidMount() {
+   async componentDidMount() {
     M.AutoInit();
 
-    if (this.props.match.params) {
-      const { id_book } = this.props.match.params;
-      const { book, isEdit } = this.props.location.state;
-      console.log({ book: book });
+    const { id_book } =  this.props.match.params;
+    console.log('id book', id_book)
+    await this.props.dispatch(novels.getNovelsById(id_book));
 
-      this.setState({
-        book,
-        id: id_book,
-        detail: book[id_book],
-        isEdit
-      });
-    }
+    this.setState({
+      book: this.props.novelsId.novelDataId
+    });
+
+
+    // if (this.props.match.params) {
+    //   const { book, isEdit } = this.props.location.state;
+    //   console.log({ book: book });
+
+    //   this.setState({
+    //     book,
+    //     id: id_book,
+    //     detail: book[id_book],
+    //     isEdit
+    //   });
+    // }
+
+
+
   }
 
   handleChange = e => {
@@ -97,27 +111,28 @@ class Details extends Component {
 
   render() {
     console.log({ newbook: this.state.book });
-    console.log({ isDelete: this.state.isDelete });
-    console.log({ isEdit: this.state.isEdit });
+    // console.log({ isDelete: this.state.isDelete });
+    // console.log({ isEdit: this.state.isEdit });
 
     const {
       title,
       description,
       image_url,
       date,
-      status,
+      novel_status,
       author,
       year,
       genre
-    } = this.state.detail;
-    const btnStatus = status === 'Available' ? '' : 'disabled';
+    } = this.state.book;
+    const btnStatus = novel_status === 'Available' ? '' : 'disabled';
     return (
       <div>
         <div
           className='top-cover'
           style={{
             backgroundImage: `url('${image_url}')`
-          }}>
+          }}
+        >
           <DetailNav
             onClick={this.deleteHandler}
             to={{
@@ -129,10 +144,11 @@ class Details extends Component {
             }}
             index={this.state.id}
           />
-          <FloatingCard image_url={image_url} alt={title.trim()} />
+          <FloatingCard image_url={image_url} alt={title} />
 
           <button
-            className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
+            className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}
+          >
             Borrow
           </button>
         </div>
@@ -156,7 +172,7 @@ class Details extends Component {
           date={date}
           year={year}
           description={description}
-          status={status}
+          status={novel_status}
           onChange={this.handleChange}
           onSubmit={this.onClick}
         />
@@ -166,7 +182,7 @@ class Details extends Component {
           desc={description}
           title={title}
           date={date}
-          status={status}
+          status={novel_status}
           genre={genre}
         />
         <div className='fixed-action-btn'>
@@ -178,4 +194,11 @@ class Details extends Component {
     );
   }
 }
-export default Details;
+
+const mapStateToProps = state => {
+  return {
+    novelsId: state.novelsId
+  };
+};
+
+export default connect(mapStateToProps)(Details)
