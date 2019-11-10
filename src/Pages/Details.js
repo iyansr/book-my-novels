@@ -31,17 +31,16 @@ class Details extends Component {
     };
   }
 
-   async componentDidMount() {
+  async componentDidMount() {
     M.AutoInit();
 
-    const { id_book } =  this.props.match.params;
-    console.log('id book', id_book)
+    const { id_book } = this.props.match.params;
+    console.log('id book', id_book);
     await this.props.dispatch(novels.getNovelsById(id_book));
 
     this.setState({
       book: this.props.novelsId.novelDataId
     });
-
 
     // if (this.props.match.params) {
     //   const { book, isEdit } = this.props.location.state;
@@ -54,9 +53,6 @@ class Details extends Component {
     //     isEdit
     //   });
     // }
-
-
-
   }
 
   handleChange = e => {
@@ -201,4 +197,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Details)
+export default connect(mapStateToProps)(Details);

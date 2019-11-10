@@ -1,23 +1,21 @@
 import Axios from 'axios';
 
-// export const getNovels = () => {
-//   return {
-//     type: 'GET_NOVELS',
-//     payload: Axios.get('http://localhost:3367/api/novel')
-//   };
-// };
 
 export const novels = {
     getNovels: () => {
     return {
       type: 'GET_NOVELS',
-      payload: Axios.get('http://localhost:3367/api/novel')
-    }
+      payload: Axios.get(
+        'https://protected-plateau-40926.herokuapp.com/api/novel'
+      )
+    };
   },
    getNovelsById: (id_book) => {
     return {
       type: 'GET_NOVELSBYID',
-      payload: Axios.get(`http://localhost:3367/api/novel/${id_book}`)
+      payload: Axios.get(
+        `https://protected-plateau-40926.herokuapp.com/api/novel/${id_book}`
+      )
     };
   }
 
