@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import NaviBar from '../Components/Navbar/Navbar';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
-// import AddModal from '../Components/Modal/AddModal';
+import AddModal from '../Components/Modal/AddModal';
 // import CarouselCard from '../Components/Carousel/Card';
 // import '../Components/Carousel/Carousel.css';
 
 import M from 'materialize-css';
 // import Axios from 'axios';
-import {connect} from 'react-redux'
-import {novels} from '../Public/Redux/Actions/novels'
+import { connect } from 'react-redux';
+import { novels } from '../Public/Redux/Actions/novels';
 
 class Home extends Component {
   constructor(props) {
@@ -20,10 +20,8 @@ class Home extends Component {
         title: '',
         author: '',
         image_url: '',
-        date: '',
-        year: '',
         description: '',
-        status: '',
+        noel_status: '',
         genre: ''
       }
     };
@@ -32,22 +30,17 @@ class Home extends Component {
   async componentDidMount() {
     M.AutoInit();
 
-       const elems = document.querySelectorAll('.carousel');
-       const options = {
-         duration: 100
-       };
-       M.Carousel.init(elems, options);
+    const elems = document.querySelectorAll('.carousel');
+    const options = {
+      duration: 100
+    };
+    M.Carousel.init(elems, options);
 
-
-    await this.props.dispatch(novels.getNovels())
+    await this.props.dispatch(novels.getNovels());
 
     this.setState({
       book: this.props.novels.novelData
     });
-
-
-
- 
   }
 
   handleChange = e => {
@@ -95,7 +88,7 @@ class Home extends Component {
   };
 
   render() {
-    console.log({book: this.state.book});
+    console.log({ book: this.state.book });
 
     return (
       <div className='home-page'>
@@ -128,7 +121,6 @@ class Home extends Component {
                 <Cards
                   alt={book.title.trim()}
                   to={`details/${book.id}`}
-                    
                   key={index}
                   title={book.title}
                   img={book.image_url}
@@ -138,20 +130,48 @@ class Home extends Component {
             })}
           </div>
         </div>
-        {/* <AddModal
+        <AddModal
           modalTitle='Add Novel'
           modalId='addNovelModal'
-          genre={this.state.tempBook.genre}
-          title={this.state.tempBook.title}
-          author={this.state.tempBook.author}
-          image_url={this.state.tempBook.image_url}
-          date={this.state.tempBook.date}
-          year={this.state.tempBook.year}
-          description={this.state.tempBook.description}
-          status={this.state.tempBook.status}
-          onChange={this.handleChange}
-          onSubmit={this.onClick}
-        /> */}
+          // genre={this.state.tempBook.genre}
+          // title={this.state.tempBook.title}
+          // author={this.state.tempBook.author}
+          // image_url={this.state.tempBook.image_url}
+          // date={this.state.tempBook.date}
+          // year={this.state.tempBook.year}
+          // description={this.state.tempBook.description}
+          // status={this.state.tempBook.status}
+          // onChange={this.handleChange}
+          // onSubmit={this.onClick}
+        />
+        <ul className='pagination container center'>
+          <li className='disabled'>
+            <a href='#!'>
+              <i className='material-icons'>chevron_left</i>
+            </a>
+          </li>
+          <li className='active'>
+            <a href='#!'>1</a>
+          </li>
+          <li className='waves-effect'>
+            <a href='#!'>2</a>
+          </li>
+          <li className='waves-effect'>
+            <a href='#!'>3</a>
+          </li>
+          <li className='waves-effect'>
+            <a href='#!'>4</a>
+          </li>
+          <li className='waves-effect'>
+            <a href='#!'>5</a>
+          </li>
+          <li className='waves-effect'>
+            <a href='#!'>
+              <i className='material-icons'>chevron_right</i>
+            </a>
+          </li>
+        </ul>
+        <br />
         <Footer />
       </div>
     );
@@ -159,9 +179,9 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  return{
+  return {
     novels: state.novels
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(Home);
