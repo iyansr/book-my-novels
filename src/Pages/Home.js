@@ -3,11 +3,11 @@ import NaviBar from '../Components/Navbar/Navbar';
 import Cards from '../Components/Cards/Cards';
 import Footer from '../Components/Footer/Footer';
 import AddModal from '../Components/Modal/AddModal';
-// import CarouselCard from '../Components/Carousel/Card';
-// import '../Components/Carousel/Carousel.css';
+import CarouselCard from '../Components/Carousel/Card';
+import '../Components/Carousel/Carousel.css';
+// import book from '../Helpers/books';
 
 import M from 'materialize-css';
-// import Axios from 'axios';
 import { connect } from 'react-redux';
 import { novels } from '../Public/Redux/Actions/novels';
 
@@ -21,26 +21,24 @@ class Home extends Component {
         author: '',
         image_url: '',
         description: '',
-        noel_status: '',
-        genre: ''
+        novel_status: '1',
+        genre: '1'
       }
     };
-    this.onClick = this.onClick.bind(this);
   }
   async componentDidMount() {
-    M.AutoInit();
-
-    const elems = document.querySelectorAll('.carousel');
-    const options = {
-      duration: 100
-    };
-    M.Carousel.init(elems, options);
-
     await this.props.dispatch(novels.getNovels());
 
     this.setState({
       book: this.props.novels.novelData
     });
+
+    M.AutoInit();
+    const elems = document.querySelectorAll('.carousel');
+    const options = {
+      duration: 100
+    };
+    M.Carousel.init(elems, options);
   }
 
   handleChange = e => {
@@ -51,62 +49,62 @@ class Home extends Component {
     });
   };
 
-  onClick = e => {
+  onSubmit = e => {
     e.preventDefault();
     const {
       title,
       author,
       image_url,
-      date,
-      year,
       description,
-      status
+      novel_status,
+      genre
     } = this.state.tempBook;
 
     const newNovel = {
       title,
       author,
       image_url,
-      date,
-      year,
       description,
-      status
+      novel_status,
+      genre
     };
 
-    this.setState({
-      book: [...this.state.book, newNovel]
-    });
-
-    const elems = document.querySelectorAll('.carousel');
-    const options = {
-      duration: 100
+    let add = async data => {
+      await this.props
+        .dispatch(novels.postNovel(data))
+        .then(() => (window.location.href = '/'));
     };
-    M.Carousel.init(elems, options);
-
-    console.log('onclick');
-    console.log(this.state.book);
+    add(newNovel);
   };
 
   render() {
     console.log({ book: this.state.book });
+    const {
+      title,
+      author,
+      image_url,
+      description,
+      novel_status,
+      genre
+    } = this.state.tempBook;
 
     return (
       <div className='home-page'>
         <NaviBar />
 
-        {/* <div className='carousel' id='myCarousel'>
-          {this.state.book.map((novel, index) => {
+        <div className='carousel'>
+          {this.state.book.map(book => {
             return (
               <CarouselCard
-                alt={novel.title.trim()}
-                key={index}
-                author={novel.author}
-                title={novel.title}
-                img={novel.image_url}
+                alt={book.title.trim()}
+                key={book.id}
+                author={book.author}
+                title={book.title}
+                img={book.image_url}
               />
             );
           })}
-        </div> */}
+        </div>
         <div className='container'>
           <h4
             style={{
@@ -116,12 +114,12 @@ class Home extends Component {
             List Novels
           </h4>
           <div className='row'>
-            {this.state.book.map((book, index) => {
+            {this.state.book.map(book => {
               return (
                 <Cards
                   alt={book.title.trim()}
                   to={`details/${book.id}`}
-                  key={index}
+                  key={book.id}
                   title={book.title}
                   img={book.image_url}
                   description={book.description}
@@ -133,44 +131,16 @@ class Home extends Component {
         <AddModal
           modalTitle='Add Novel'
           modalId='addNovelModal'
-          // genre={this.state.tempBook.genre}
-          // title={this.state.tempBook.title}
-          // author={this.state.tempBook.author}
-          // image_url={this.state.tempBook.image_url}
-          // date={this.state.tempBook.date}
-          // year={this.state.tempBook.year}
-          // description={this.state.tempBook.description}
-          // status={this.state.tempBook.status}
-          // onChange={this.handleChange}
-          // onSubmit={this.onClick}
+          genre={genre}
+          title={title}
+          author={author}
+          image_url={image_url}
+          novel_status={novel_status}
+          description={description}
+          onChange={this.handleChange}
+          onSubmit={this.onSubmit.bind(this)}
         />
-        <ul className='pagination container center'>
-          <li className='disabled'>
-            <a href='#!'>
-              <i className='material-icons'>chevron_left</i>
-            </a>
-          </li>
-          <li className='active'>
-            <a href='#!'>1</a>
-          </li>
-          <li className='waves-effect'>
-            <a href='#!'>2</a>
-          </li>
-          <li className='waves-effect'>
-            <a href='#!'>3</a>
-          </li>
-          <li className='waves-effect'>
-            <a href='#!'>4</a>
-          </li>
-          <li className='waves-effect'>
-            <a href='#!'>5</a>
-          </li>
-          <li className='waves-effect'>
-            <a href='#!'>
-              <i className='material-icons'>chevron_right</i>
-            </a>
-          </li>
-        </ul>
+
         <br />
         <Footer />
       </div>
@@ -180,7 +150,8 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    novels: state.novels
+    novels: state.novels,
+    postNovel: state.postNovel
   };
 };
 

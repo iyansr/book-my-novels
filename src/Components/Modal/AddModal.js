@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { genres } from '../../Public/Redux/Actions/genres';
+import { status } from '../../Public/Redux/Actions/status';
 
 import M from 'materialize-css';
 
@@ -9,14 +10,16 @@ class AddModal extends Component {
     super(props);
     this.state = {
       genres: [],
-      selectedGenre: ''
+      novel_status: []
     };
   }
 
   async componentDidMount() {
     await this.props.dispatch(genres());
+    await this.props.dispatch(status());
     this.setState({
-      genres: this.props.genres.genreData
+      genres: this.props.genres.genreData,
+      novel_status: this.props.status.statusData
     });
 
     const elems = document.querySelectorAll('select');
@@ -25,6 +28,7 @@ class AddModal extends Component {
 
   render() {
     console.log({ genres: this.state.genres });
+    console.log({ status: this.state.novel_status });
 
     const {
       title,
@@ -38,23 +42,20 @@ class AddModal extends Component {
       modalId,
       modalTitle
     } = this.props;
+
     return (
       <div id={modalId} className='modal'>
+        <button className='btn modal-close right btn-floating transparent z-depth-0'>
+          <i className='material-icons black-text'>close</i>
+        </button>
+
         <div className='modal-content'>
           <h4>{modalTitle}</h4>
           {/* <a className='btn-floating btn-large waves-effect waves-light red'>
             <i className='material-icons'>add</i>
           </a> */}
           <div className='row'>
-            <form
-              onSubmit={onSubmit}
-              method={
-                modalId === 'addNovelModal'
-                  ? 'POST'
-                  : modalId === 'editNovelModal'
-                  ? 'PUT'
-                  : ''
-              }>
+            <form onSubmit={onSubmit}>
               <div className='input-field col m12'>
                 <i className='material-icons prefix'>person</i>
                 <input
@@ -102,18 +103,23 @@ class AddModal extends Component {
               </div>
               <div className='input-field col m12'>
                 <i className='material-icons prefix'>account_circle</i>
-                <input
+                <select
                   name='novel_status'
                   id='novel_status'
                   type='text'
                   className='validate'
-                  placeholder='Genre'
+                  placeholder='Status'
                   value={novel_status}
-                  onChange={onChange}
-                />
-                <label className='active' htmlFor='genre'>
-                  Status
-                </label>
+                  onChange={onChange}>
+                  {this.state.novel_status.map(status => {
+                    return (
+                      <option key={status.id} value={status.id}>
+                        {status.novel_status}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>Select Status</label>
               </div>
               <div className='input-field col m12'>
                 <i className='material-icons prefix'>account_circle</i>
@@ -150,7 +156,7 @@ class AddModal extends Component {
               <div className='modal-footer'>
                 <button
                   type='submit'
-                  className='modal-close btn waves-effect waves-light'
+                  className={`modal-close btn waves-effect waves-light`}
                   style={{ marginBottom: '20px' }}>
                   Save
                 </button>
@@ -170,7 +176,8 @@ class AddModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    genres: state.genres
+    genres: state.genres,
+    status: state.status
   };
 };
 

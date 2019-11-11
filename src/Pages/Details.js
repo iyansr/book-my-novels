@@ -25,9 +25,7 @@ class Details extends Component {
         description: '',
         status: '',
         genre: ''
-      },
-      isEdit: false,
-      isDelete: false
+      }
     };
   }
 
@@ -39,20 +37,8 @@ class Details extends Component {
     await this.props.dispatch(novels.getNovelsById(id_book));
 
     this.setState({
-      book: this.props.novelsId.novelDataId
+      book: this.props.novelsId.novelData
     });
-
-    // if (this.props.match.params) {
-    //   const { book, isEdit } = this.props.location.state;
-    //   console.log({ book: book });
-
-    //   this.setState({
-    //     book,
-    //     id: id_book,
-    //     detail: book[id_book],
-    //     isEdit
-    //   });
-    // }
   }
 
   handleChange = e => {
@@ -86,14 +72,6 @@ class Details extends Component {
       status,
       genre
     };
-    const { id_book } = this.props.match.params;
-    const tempArray = this.state.book.slice();
-    tempArray[id_book] = newNovel;
-
-    this.setState({
-      book: tempArray,
-      isEdit: true
-    });
   };
 
   deleteHandler = () => {
@@ -127,8 +105,7 @@ class Details extends Component {
           className='top-cover'
           style={{
             backgroundImage: `url('${image_url}')`
-          }}
-        >
+          }}>
           <DetailNav
             onClick={this.deleteHandler}
             to={{
@@ -143,8 +120,7 @@ class Details extends Component {
           <FloatingCard image_url={image_url} alt={title} />
 
           <button
-            className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}
-          >
+            className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
             Borrow
           </button>
         </div>
