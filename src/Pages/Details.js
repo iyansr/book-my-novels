@@ -23,11 +23,11 @@ class Details extends Component {
       tempBook: {
         ...novelData.filter(data => data.id == id_book)[0],
         novel_status: '1',
-        genre: '1'
+        genre: '1',
       },
       genreDropDown: this.props.genres.genreData,
       statusDropDown: this.props.status.statusData,
-      btnDisabled: ''
+      btnDisabled: '',
     };
   }
 
@@ -41,13 +41,13 @@ class Details extends Component {
     const { name, value } = e.target;
 
     this.setState({
-      tempBook: { ...this.state.tempBook, [name]: value }
+      tempBook: { ...this.state.tempBook, [name]: value },
     });
   };
 
   onSubmit = e => {
     this.setState({
-      btnDisabled: 'disabled'
+      btnDisabled: 'disabled',
     });
     e.preventDefault();
     const {
@@ -56,7 +56,7 @@ class Details extends Component {
       image_url,
       description,
       novel_status,
-      genre
+      genre,
     } = this.state.tempBook;
 
     const newNovel = {
@@ -65,22 +65,22 @@ class Details extends Component {
       image_url,
       description,
       novel_status,
-      genre
+      genre,
     };
 
     const { id_book } = this.props.match.params;
 
-    let post = async (data, id) => {
+    let putNovel = async (data, id) => {
       await this.props.dispatch(novels.editNovel(data, id)).then(() => {
         swal({
           title: 'Succes Update',
           text: `${this.state.book.title} has been updated !`,
-          icon: 'success'
+          icon: 'success',
         }).then(() => (window.location.href = '/'));
       });
     };
 
-    post(newNovel, id_book);
+    putNovel(newNovel, id_book);
 
     console.log({ submit: newNovel });
   };
@@ -93,14 +93,14 @@ class Details extends Component {
       text: 'Once deleted, you will not be able to recover this novel!',
       icon: 'warning',
       buttons: true,
-      dangerMode: true
-    }).then(willDelete => {
+      dangerMode: true,
+    }).then(async willDelete => {
       if (willDelete) {
-        Axios.delete(`http://localhost:3367/api/novel/${id_book}`).then(() => {
+        await this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
           swal('Poof! Novel has been deleted!', {
-            icon: 'success'
-          }).then(() => (window.location.href = '/'));
-        });
+            icon: 'success',
+          }).then(() => (window.location.href = '/'))
+        );
       } else {
         swal('Novel is safe!');
       }
@@ -109,7 +109,7 @@ class Details extends Component {
 
   render() {
     if (typeof this.state.book === 'undefined') {
-      return <Redirect to='/' />;
+      return <Redirect to="/" />;
     } else {
       const {
         title,
@@ -118,27 +118,29 @@ class Details extends Component {
         description,
         novel_status,
         genre,
-        id
+        id,
       } = this.state.book;
       const btnStatus = novel_status === 'Available' ? '' : 'disabled';
       return (
         <div>
           <div
-            className='top-cover'
+            className="top-cover"
             style={{
-              backgroundImage: `url('${image_url}')`
-            }}>
-            <DetailNav onDelete={this.deleteHandler} to='/' index={id} />
+              backgroundImage: `url('${image_url}')`,
+            }}
+          >
+            <DetailNav onDelete={this.deleteHandler} to="/" index={id} />
             <FloatingCard image_url={image_url} alt={title} />
 
             <button
-              className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
+              className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}
+            >
               Borrow
             </button>
           </div>
           <AddModal
-            modalTitle='Edit Novel'
-            modalId='editNovelModal'
+            modalTitle="Edit Novel"
+            modalId="editNovelModal"
             genre={this.state.tempBook.genre}
             title={this.state.tempBook.title}
             author={this.state.tempBook.author}
@@ -172,9 +174,9 @@ class Details extends Component {
             genre={genre}
             author={author}
           />
-          <div className='fixed-action-btn'>
+          <div className="fixed-action-btn">
             <button className={`btn-floating btn-large ${btnStatus}`}>
-              <i className='large material-icons'>add</i>
+              <i className="large material-icons">add</i>
             </button>
           </div>
         </div>
@@ -187,8 +189,9 @@ const mapStateToProps = state => {
   return {
     novels: state.novels,
     editNovel: state.editNovel,
+    deleteNovel: state.deleteNovel,
     genres: state.genres,
-    status: state.status
+    status: state.status,
   };
 };
 

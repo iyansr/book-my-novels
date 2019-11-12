@@ -117,5 +117,33 @@ export const novels = {
       default:
         return prevState;
     }
-  }
+  },
+  deleteNovel: (prevState = initState, action) => {
+    switch (action.type) {
+      case 'DELETE_NOVEL_PENDING':
+        return {
+          ...prevState,
+          isLoading: true,
+          isRejected: false,
+          isFulfilled: false
+        };
+
+      case 'DELETE_NOVEL_REJECTED':
+        return {
+          ...prevState,
+          isLoading: false,
+          isRejected: true
+        };
+      case 'DELETE_NOVEL_FULFILLED':
+        return {
+          ...prevState,
+          isLoading: false,
+          isFulfilled: true,
+          novelData: action.payload.data
+        };
+
+      default:
+        return prevState;
+    }
+  },
 };
