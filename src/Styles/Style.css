@@ -104,3 +104,7 @@
     height: 160px !important;
   }
 }
+
+._loading_overlay_overlay {
+  background: RGBA(0, 0, 0, 0.8);
+}

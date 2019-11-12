@@ -1,40 +1,52 @@
-import React, { Component } from 'react';
-import NaviBar from '../Components/Navbar/Navbar';
-import Cards from '../Components/Cards/Cards';
-import Footer from '../Components/Footer/Footer';
-import AddModal from '../Components/Modal/AddModal';
-import CarouselCard from '../Components/Carousel/Card';
-import '../Components/Carousel/Carousel.css';
+import React, { Component } from "react";
+import NaviBar from "../Components/Navbar/Navbar";
+import Cards from "../Components/Cards/Cards";
+import Footer from "../Components/Footer/Footer";
+import AddModal from "../Components/Modal/AddModal";
+import CarouselCard from "../Components/Carousel/Card";
+import "../Components/Carousel/Carousel.css";
 // import book from '../Helpers/books';
 
-import M from 'materialize-css';
-import { connect } from 'react-redux';
-import { novels } from '../Public/Redux/Actions/novels';
+import M from "materialize-css";
+import { connect } from "react-redux";
+import { novels } from "../Public/Redux/Actions/novels";
+import { genres } from "../Public/Redux/Actions/genres";
+import { status } from "../Public/Redux/Actions/status";
+import LoadingOverlay from "react-loading-overlay";
+import swal from "sweetalert";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       book: [],
+      genreDropDown: [],
+      statusDropDown: [],
       tempBook: {
-        title: '',
-        author: '',
-        image_url: '',
-        description: '',
-        novel_status: '1',
-        genre: '1'
-      }
+        title: "",
+        author: "",
+        image_url: "",
+        description: "",
+        novel_status: "1",
+        genre: "1"
+      },
+      btnDisabled: "",
+      isOverLay: false
     };
   }
   async componentDidMount() {
-    await this.props.dispatch(novels.getNovels());
+    await this.props.dispatch(novels.getNovels("?"));
+    await this.props.dispatch(genres());
+    await this.props.dispatch(status());
 
     this.setState({
-      book: this.props.novels.novelData
+      book: this.props.novels.novelData,
+      genreDropDown: this.props.genres.genreData,
+      statusDropDown: this.props.status.statusData
     });
 
     M.AutoInit();
-    const elems = document.querySelectorAll('.carousel');
+    const elems = document.querySelectorAll(".carousel");
     const options = {
       duration: 100
     };
@@ -50,6 +62,10 @@ class Home extends Component {
   };
 
   onSubmit = e => {
+    this.setState({
+      btnDisabled: "disabled",
+      isOverLay: true
+    });
     e.preventDefault();
     const {
       title,
@@ -70,15 +86,20 @@ class Home extends Component {
     };
 
     let add = async data => {
-      await this.props
-        .dispatch(novels.postNovel(data))
-        .then(() => (window.location.href = '/'));
+      await this.props.dispatch(novels.postNovel(data)).then(() => {
+        this.setState({
+          isOverLay: false
+        });
+        swal({
+          icon: "success",
+          title: "Success Addinng Novel"
+        }).then(() => (window.location.href = "/"));
+      });
     };
     add(newNovel);
   };
 
   render() {
-    console.log({ book: this.state.book });
     const {
       title,
       author,
@@ -89,31 +110,42 @@ class Home extends Component {
     } = this.state.tempBook;
 
     return (
-      <div className='home-page'>
+      <div className="home-page">
         <NaviBar />
 
-        <div className='carousel'>
-          {this.state.book.map(book => {
-            return (
-              <CarouselCard
-                alt={book.title.trim()}
-                key={book.id}
-                author={book.author}
-                title={book.title}
-                img={book.image_url}
-              />
-            );
+        <LoadingOverlay
+          active={this.state.isOverLay}
+          spinner
+          text="Adding Data..."
+        ></LoadingOverlay>
+
+        <div className="carousel">
+          {this.state.book.map((book, id) => {
+            if (id <= 4) {
+              return (
+                <CarouselCard
+                  alt={book.title.trim()}
+                  key={book.id}
+                  author={book.author}
+                  title={book.title}
+                  img={book.image_url}
+                />
+              );
+            } else {
+              return null;
+            }
           })}
         </div>
-        <div className='container'>
+        <div className="container">
           <h4
             style={{
-              marginBottom: '30px',
-              paddingLeft: '10px'
-            }}>
+              marginBottom: "30px",
+              paddingLeft: "10px"
+            }}
+          >
             List Novels
           </h4>
-          <div className='row'>
+          <div className="row">
             {this.state.book.map(book => {
               return (
                 <Cards
@@ -129,8 +161,8 @@ class Home extends Component {
           </div>
         </div>
         <AddModal
-          modalTitle='Add Novel'
-          modalId='addNovelModal'
+          modalTitle="Add Novel"
+          modalId="addNovelModal"
           genre={genre}
           title={title}
           author={author}
@@ -139,8 +171,21 @@ class Home extends Component {
           description={description}
           onChange={this.handleChange}
           onSubmit={this.onSubmit.bind(this)}
+          sDropDown={this.state.statusDropDown.map(status => {
+            return (
+              <option key={status.id} value={status.id}>
+                {status.novel_status}
+              </option>
+            );
+          })}
+          gDropDown={this.state.genreDropDown.map(genre => {
+            return (
+              <option key={genre.id} value={genre.id}>
+                {genre.genre}
+              </option>
+            );
+          })}
         />
-
         <br />
         <Footer />
       </div>
@@ -151,7 +196,9 @@ class Home extends Component {
 const mapStateToProps = state => {
   return {
     novels: state.novels,
-    postNovel: state.postNovel
+    postNovel: state.postNovel,
+    genres: state.genres,
+    status: state.status
   };
 };
 

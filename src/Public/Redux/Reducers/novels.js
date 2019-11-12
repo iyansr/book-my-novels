@@ -89,5 +89,33 @@ export const novels = {
       default:
         return prevState;
     }
+  },
+  editNovel: (prevState = initState, action) => {
+    switch (action.type) {
+      case 'EDIT_NOVEL_PENDING':
+        return {
+          ...prevState,
+          isLoading: true,
+          isRejected: false,
+          isFulfilled: false
+        };
+
+      case 'EDIT_NOVEL_REJECTED':
+        return {
+          ...prevState,
+          isLoading: false,
+          isRejected: true
+        };
+      case 'EDIT_NOVEL_FULFILLED':
+        return {
+          ...prevState,
+          isLoading: false,
+          isFulfilled: true,
+          novelData: action.payload.data.data
+        };
+
+      default:
+        return prevState;
+    }
   }
 };

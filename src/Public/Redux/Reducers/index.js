@@ -8,6 +8,7 @@ const appReducer = combineReducers({
   novels: novels.getNovels,
   novelsId: novels.getNovelsId,
   postNovel: novels.postNovel,
+  editNovel: novels.editNovel,
   genres: genres,
   status
 });

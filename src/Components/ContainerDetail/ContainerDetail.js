@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ContainerDetail = props => {
-  const { desc, title, date, status, index, genre } = props;
+  const { desc, title, author, status, index, genre } = props;
 
   const color =
     status === 'Available' ? 'light-green-text text-accent-4' : 'red-text';
@@ -13,7 +13,7 @@ const ContainerDetail = props => {
         {genre}
       </a>
       <h4>{title}</h4>
-      <span style={{ fontWeight: 'bold' }}>{date}</span>
+      <span style={{ fontWeight: 'bold' }}>{author}</span>
       <p
         style={{
           marginTop: '20px'

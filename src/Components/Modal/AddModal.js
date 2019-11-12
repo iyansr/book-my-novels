@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { genres } from '../../Public/Redux/Actions/genres';
-import { status } from '../../Public/Redux/Actions/status';
+// import { connect } from 'react-redux';
 
 import M from 'materialize-css';
 
@@ -14,22 +12,12 @@ class AddModal extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.props.dispatch(genres());
-    await this.props.dispatch(status());
-    this.setState({
-      genres: this.props.genres.genreData,
-      novel_status: this.props.status.statusData
-    });
-
+  componentDidMount() {
     const elems = document.querySelectorAll('select');
     M.FormSelect.init(elems);
   }
 
   render() {
-    console.log({ genres: this.state.genres });
-    console.log({ status: this.state.novel_status });
-
     const {
       title,
       author,
@@ -40,7 +28,10 @@ class AddModal extends Component {
       onChange,
       onSubmit,
       modalId,
-      modalTitle
+      modalTitle,
+      disabled,
+      gDropDown,
+      sDropDown
     } = this.props;
 
     return (
@@ -51,9 +42,6 @@ class AddModal extends Component {
 
         <div className='modal-content'>
           <h4>{modalTitle}</h4>
-          {/* <a className='btn-floating btn-large waves-effect waves-light red'>
-            <i className='material-icons'>add</i>
-          </a> */}
           <div className='row'>
             <form onSubmit={onSubmit}>
               <div className='input-field col m12'>
@@ -111,13 +99,7 @@ class AddModal extends Component {
                   placeholder='Status'
                   value={novel_status}
                   onChange={onChange}>
-                  {this.state.novel_status.map(status => {
-                    return (
-                      <option key={status.id} value={status.id}>
-                        {status.novel_status}
-                      </option>
-                    );
-                  })}
+                  {sDropDown}
                 </select>
                 <label>Select Status</label>
               </div>
@@ -128,13 +110,7 @@ class AddModal extends Component {
                   id='genre'
                   value={genre}
                   onChange={onChange}>
-                  {this.state.genres.map(genre => {
-                    return (
-                      <option key={genre.id} value={genre.id}>
-                        {genre.genre}
-                      </option>
-                    );
-                  })}
+                  {gDropDown}
                 </select>
                 <label>Select Genre</label>
               </div>
@@ -156,17 +132,12 @@ class AddModal extends Component {
               <div className='modal-footer'>
                 <button
                   type='submit'
-                  className={`modal-close btn waves-effect waves-light`}
+                  className={`btn modal-close waves-effect waves-light ${disabled}`}
                   style={{ marginBottom: '20px' }}>
                   Save
                 </button>
               </div>
             </form>
-            {/* <button
-              className='modal-close btn-flat yellow'
-              style={{ marginRight: '20px' }}>
-              Close
-            </button> */}
           </div>
         </div>
       </div>
@@ -174,11 +145,4 @@ class AddModal extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    genres: state.genres,
-    status: state.status
-  };
-};
-
-export default connect(mapStateToProps)(AddModal);
+export default AddModal;

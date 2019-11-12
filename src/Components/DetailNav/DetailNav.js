@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const DetailNav = props => {
-  const { index, onClick, to } = props;
+  const { index, onDelete, to } = props;
   return (
     <nav className='transparent z-depth-0'>
       <div className='nav-wrapper transparent z-depth-0'>
@@ -31,7 +31,7 @@ const DetailNav = props => {
           </li>
           <li>
             <a
-              onClick={onClick}
+              onClick={onDelete}
               className='modal-trigger'
               data-target='modalAlert'
               href={`${index}#`}

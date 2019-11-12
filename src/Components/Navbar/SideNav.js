@@ -27,7 +27,10 @@ const SideNav = () => {
         </a>
       </li>
       <li>
-        <a href='/#' data-target='addNovelModal' className='modal-trigger'>
+        <a
+          href='/#'
+          data-target='addNovelModal'
+          className='modal-trigger sidenav-close'>
           <i className='material-icons '>library_add</i>Add Novel
         </a>
       </li>
