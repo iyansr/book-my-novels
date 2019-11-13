@@ -12,186 +12,194 @@ import { connect } from 'react-redux';
 import { novels } from '../Public/Redux/Actions/novels';
 
 class Details extends Component {
-  constructor(props) {
-    super(props);
-    const { novelData } = this.props.novels;
+	constructor(props) {
+		super(props);
+		const { novelData } = this.props.novels;
 
-    const { id_book } = this.props.match.params;
-    this.state = {
-      book: novelData.filter(data => `${data.id}` === id_book)[0],
-      tempBook: {
-        ...novelData.filter(data => `${data.id}` === id_book)[0],
-        novel_status: '1',
-        genre: '1',
-      },
-      genreDropDown: this.props.genres.genreData,
-      statusDropDown: this.props.status.statusData,
-      btnDisabled: '',
-    };
-  }
+		const { id_book } = this.props.match.params;
+		this.state = {
+			book: novelData.filter(data => `${data.id}` === id_book)[0],
+			tempBook: {
+				...novelData.filter(data => `${data.id}` === id_book)[0],
+				genre: this.props.genres.genreData
+					.filter(
+						g =>
+							g.genre ===
+							novelData.filter(data => `${data.id}` === id_book)[0].genre
+					)[0]
+					.id.toString(),
+				novel_status: this.props.status.statusData
+					.filter(
+						s =>
+							s.novel_status ===
+							novelData.filter(data => `${data.id}` === id_book)[0].novel_status
+					)[0]
+					.id.toString(),
+			},
 
-  componentDidMount() {
-    M.AutoInit();
-    const elems = document.querySelectorAll('select');
-    M.FormSelect.init(elems);
-  }
+			genreDropDown: this.props.genres.genreData,
+			statusDropDown: this.props.status.statusData,
+		};
+	}
 
-  handleChange = e => {
-    const { name, value } = e.target;
+	componentDidMount() {
+		M.AutoInit();
+		const elems = document.querySelectorAll('select');
+		M.FormSelect.init(elems);
+	}
 
-    this.setState({
-      tempBook: { ...this.state.tempBook, [name]: value },
-    });
-  };
+	handleChange = e => {
+		const { name, value } = e.target;
 
-  onSubmit = e => {
-    this.setState({
-      btnDisabled: 'disabled',
-    });
-    e.preventDefault();
-    const {
-      title,
-      author,
-      image_url,
-      description,
-      novel_status,
-      genre,
-    } = this.state.tempBook;
+		this.setState({
+			tempBook: { ...this.state.tempBook, [name]: value },
+		});
+	};
 
-    const newNovel = {
-      title,
-      author,
-      image_url,
-      description,
-      novel_status,
-      genre,
-    };
+	onSubmit = e => {
+		e.preventDefault();
+		const {
+			title,
+			author,
+			image_url,
+			description,
+			novel_status,
+			genre,
+		} = this.state.tempBook;
 
-    const { id_book } = this.props.match.params;
+		const newNovel = {
+			title,
+			author,
+			image_url,
+			description,
+			novel_status,
+			genre,
+		};
 
-    let putNovel = async (data, id) => {
-      await this.props.dispatch(novels.editNovel(data, id)).then(() => {
-        swal({
-          title: 'Succes Update',
-          text: `${this.state.book.title} has been updated !`,
-          icon: 'success',
-        }).then(() => (window.location.href = '/'));
-      });
-    };
+		const { id_book } = this.props.match.params;
 
-    putNovel(newNovel, id_book);
+		let putNovel = async (data, id) => {
+			await this.props.dispatch(novels.editNovel(data, id)).then(() => {
+				swal({
+					title: 'Succes Update',
+					text: `${this.state.book.title} has been updated !`,
+					icon: 'success',
+				});
+				this.setState({
+					book: {
+						...data,
+						genre: this.props.genres.genreData.filter(
+							g => `${g.id}` === data.genre
+						)[0].genre,
+						novel_status: this.props.status.statusData.filter(
+							s => `${s.id}` === data.novel_status
+						)[0].novel_status,
+					},
+				});
+			});
+		};
 
-    console.log({ submit: newNovel });
-  };
+		putNovel(newNovel, id_book);
 
-  deleteHandler = () => {
-    const { id_book } = this.props.match.params;
+		console.log({ submit: newNovel });
+	};
 
-    swal({
-      title: 'Are you sure?',
-      text: 'Once deleted, you will not be able to recover this novel!',
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true,
-    }).then(async willDelete => {
-      if (willDelete) {
-        await this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
-          swal('Poof! Novel has been deleted!', {
-            icon: 'success',
-          }).then(() => (window.location.href = '/'))
-        );
-      } else {
-        swal('Novel is safe!');
-      }
-    });
-  };
+	deleteHandler = () => {
+		const { id_book } = this.props.match.params;
 
-  render() {
-    if (typeof this.state.book === 'undefined') {
-      return <Redirect to="/" />;
-    } else {
-      const {
-        title,
-        author,
-        image_url,
-        description,
-        novel_status,
-        genre,
-        id,
-      } = this.state.book;
-      const btnStatus = novel_status === 'Available' ? '' : 'disabled';
-      return (
-        <div>
-          <div
-            className="top-cover"
-            style={{
-              backgroundImage: `url('${image_url}')`,
-            }}
-          >
-            <DetailNav onDelete={this.deleteHandler} to="/" index={id} />
-            <FloatingCard image_url={image_url} alt={title} />
+		swal({
+			title: 'Are you sure?',
+			text: 'Once deleted, you will not be able to recover this novel!',
+			icon: 'warning',
+			buttons: true,
+			dangerMode: true,
+		}).then(async willDelete => {
+			if (willDelete) {
+				await this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
+					swal('Poof! Novel has been deleted!', {
+						icon: 'success',
+					}).then(() => (window.location.href = '/'))
+				);
+			} else {
+				swal('Novel is safe!');
+			}
+		});
+	};
 
-            <button
-              className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}
-            >
-              Borrow
-            </button>
-          </div>
-          <AddModal
-            modalTitle="Edit Novel"
-            modalId="editNovelModal"
-            genre={this.state.tempBook.genre}
-            title={this.state.tempBook.title}
-            author={this.state.tempBook.author}
-            image_url={this.state.tempBook.image_url}
-            novel_status={this.state.tempBook.novel_status}
-            description={this.state.tempBook.description}
-            onChange={this.handleChange.bind(this)}
-            onSubmit={this.onSubmit.bind(this)}
-            disabled={this.state.btnDisabled}
-            sDropDown={this.props.status.statusData.map(status => {
-              return (
-                <option key={status.id} value={status.id}>
-                  {status.novel_status}
-                </option>
-              );
-            })}
-            gDropDown={this.props.genres.genreData.map(genre => {
-              return (
-                <option key={genre.id} value={genre.id}>
-                  {genre.genre}
-                </option>
-              );
-            })}
-          />
-          {/* asdads */}
-          <ContainerDetail
-            index={id}
-            desc={description}
-            title={title}
-            status={novel_status}
-            genre={genre}
-            author={author}
-          />
-          <div className="fixed-action-btn">
-            <button className={`btn-floating btn-large ${btnStatus}`}>
-              <i className="large material-icons">add</i>
-            </button>
-          </div>
-        </div>
-      );
-    }
-  }
+	render() {
+		if (typeof this.state.book === 'undefined') {
+			return <Redirect to='/' />;
+		} else {
+			console.log('tembook ', this.state.tempBook);
+
+			const {
+				title,
+				author,
+				image_url,
+				description,
+				novel_status,
+				genre,
+				id,
+			} = this.state.book;
+			const btnStatus = novel_status === 'Available' ? '' : 'disabled';
+			return (
+				<div>
+					<div
+						className='top-cover'
+						style={{
+							backgroundImage: `url('${image_url}')`,
+						}}>
+						<DetailNav onDelete={this.deleteHandler} to='/' index={id} />
+						<FloatingCard image_url={image_url} alt={title} />
+
+						<button
+							className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
+							Borrow
+						</button>
+					</div>
+					<AddModal
+						modalTitle='Edit Novel'
+						modalId='editNovelModal'
+						genre={this.state.tempBook.genre}
+						title={this.state.tempBook.title}
+						author={this.state.tempBook.author}
+						image_url={this.state.tempBook.image_url}
+						novel_status={this.state.tempBook.novel_status}
+						description={this.state.tempBook.description}
+						onChange={this.handleChange.bind(this)}
+						onSubmit={this.onSubmit.bind(this)}
+						disabled={this.state.btnDisabled}
+						sDropDown={this.props.status.statusData}
+						gDropDown={this.props.genres.genreData}
+					/>
+					{/* asdads */}
+					<ContainerDetail
+						index={id}
+						desc={description}
+						title={title}
+						status={novel_status}
+						genre={genre}
+						author={author}
+					/>
+					<div className='fixed-action-btn'>
+						<button className={`btn-floating btn-large ${btnStatus}`}>
+							<i className='large material-icons'>add</i>
+						</button>
+					</div>
+				</div>
+			);
+		}
+	}
 }
 
 const mapStateToProps = state => {
-  return {
-    novels: state.novels,
-    editNovel: state.editNovel,
-    deleteNovel: state.deleteNovel,
-    genres: state.genres,
-    status: state.status,
-  };
+	return {
+		novels: state.novels,
+		editNovel: state.editNovel,
+		deleteNovel: state.deleteNovel,
+		genres: state.genres,
+		status: state.status,
+	};
 };
 
 export default connect(mapStateToProps)(Details);
