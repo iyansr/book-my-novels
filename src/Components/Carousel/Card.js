@@ -5,7 +5,7 @@ const CarouselCard = props => {
   const { img, alt, title, author } = props;
   return (
     <div
-      className='card carousel-item carousel-card z-depth-5'
+      className='card  carousel-card carousel-item z-depth-5'
       style={{ borderRadius: '12px' }}>
       <div className='card-image '>
         <img className='custom-card-img' src={img} alt={alt} />
