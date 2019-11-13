@@ -11,7 +11,7 @@ const Pagination = props => {
 	return (
 		<ul className='pagination center'>
 			{PageNumbers.map(num => (
-				<li key={num}>
+				<li key={num} className='active' style={{ marginLeft: '3px' }}>
 					<a onClick={() => paginate(num)} href='#!'>
 						{num}
 					</a>
