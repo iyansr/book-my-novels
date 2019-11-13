@@ -10,7 +10,6 @@ import { Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { novels } from '../Public/Redux/Actions/novels';
-import Axios from 'axios';
 
 class Details extends Component {
   constructor(props) {
@@ -19,9 +18,9 @@ class Details extends Component {
 
     const { id_book } = this.props.match.params;
     this.state = {
-      book: novelData.filter(data => data.id == id_book)[0],
+      book: novelData.filter(data => `${data.id}` === id_book)[0],
       tempBook: {
-        ...novelData.filter(data => data.id == id_book)[0],
+        ...novelData.filter(data => `${data.id}` === id_book)[0],
         novel_status: '1',
         genre: '1',
       },

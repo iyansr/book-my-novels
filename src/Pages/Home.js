@@ -103,7 +103,7 @@ class Home extends Component {
 
   filterGenre = a => {
     this.state.genreDropDown.filter(async g => {
-      if (a.currentTarget.text == g.genre) {
+      if (a.currentTarget.text === g.genre) {
         await this.props.dispatch(novels.getNovels(`?genre=${g.id}`));
         this.setState({
           book: this.props.novels.novelData,
