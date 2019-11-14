@@ -75,7 +75,7 @@ $ npm start
 - [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware) - Redux Promise Middleware enables simple, yet robust handling of async action creators in Redux.
 - [react-redux](https://www.npmjs.com/package/react-redux) - Official React bindings for Redux. Performant and flexible.
 - [axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
-- [redux]https://www.npmjs.com/package/redux) - Redux is a predictable state container for JavaScript apps.
+- [redux](https://www.npmjs.com/package/redux) - Redux is a predictable state container for JavaScript apps.
 
 ## Aplication Structure
 
