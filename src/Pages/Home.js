@@ -26,10 +26,10 @@ class Home extends Component {
 			genreDropDown: [],
 			statusDropDown: [],
 			tempBook: {
-				title: '',
-				author: '',
-				image_url: '',
-				description: '',
+				title: null,
+				author: null,
+				image_url: null,
+				description: null,
 				novel_status: '1',
 				genre: '1',
 			},
@@ -132,7 +132,6 @@ class Home extends Component {
 	onSearch = e => {
 		e.preventDefault();
 
-
 		switch (this.state.searchBy) {
 			case 'title':
 				const search = async p => {
@@ -162,7 +161,6 @@ class Home extends Component {
 						book: this.props.novels.novelData,
 					});
 				};
-
 
 				d(this.state.searchVal);
 				break;
@@ -244,7 +242,9 @@ class Home extends Component {
 				<Pagination
 					totalPost={this.state.book.length}
 					postPerpage={this.state.postPerPage}
-					paginate={pageNum => this.setState({ currentPage: pageNum })}
+					paginate={pageNum => {
+						this.setState({ currentPage: pageNum });
+					}}
 				/>
 				<Footer />
 			</div>

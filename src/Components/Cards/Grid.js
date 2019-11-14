@@ -13,6 +13,12 @@ const Grid = props => {
 						title={book.title}
 						img={book.image_url}
 						description={book.description}
+						novelStatus={book.novel_status}
+						badgeColor={
+							book.novel_status === 'Available'
+								? 'green accent-4'
+								: 'pink lighten-3'
+						}
 					/>
 				);
 			})}
