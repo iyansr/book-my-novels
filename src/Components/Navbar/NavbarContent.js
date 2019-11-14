@@ -65,10 +65,11 @@ const NavbarContent = props => {
 						className='dropdown-trigger white-text'
 						href='/#'
 						data-target='all-times'>
-						All Times
+						Search By..
 						<i className='material-icons right white-text'>arrow_drop_down</i>
 					</a>
 				</li>
+
 				<li>
 					<div className='input-field brand-logo center'>
 						<form onSubmit={props.onSearch}>

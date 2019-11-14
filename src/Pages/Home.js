@@ -38,6 +38,7 @@ class Home extends Component {
 			searchVal: '',
 			postPerPage: 6,
 			currentPage: 1,
+			searchBy: '',
 		};
 	}
 	async componentDidMount() {
@@ -117,22 +118,53 @@ class Home extends Component {
 		});
 	};
 
+	searchBy = e => {
+		this.setState({
+			searchBy: e.currentTarget.text.toLowerCase(),
+		});
+
+		console.log(e.currentTarget.text.toLowerCase());
+	};
+
 	changeSearch = e => {
 		this.setState({ searchVal: e.target.value });
 	};
 	onSearch = e => {
 		e.preventDefault();
 
-		console.log('search..', this.state.searchVal);
+		switch (this.state.searchBy) {
+			case 'title':
+				const search = async p => {
+					await this.props.dispatch(novels.getNovels(`?title=${p}`));
+					this.setState({
+						book: this.props.novels.novelData,
+					});
+				};
 
-		const search = async p => {
-			await this.props.dispatch(novels.getNovels(`?title=${p}`));
-			this.setState({
-				book: this.props.novels.novelData,
-			});
-		};
+				search(this.state.searchVal);
+				break;
+			case 'author':
+				const au = async p => {
+					await this.props.dispatch(novels.getNovels(`?author=${p}`));
+					this.setState({
+						book: this.props.novels.novelData,
+					});
+				};
 
-		search(this.state.searchVal);
+				au(this.state.searchVal);
+				break;
+
+			default:
+				const d = async p => {
+					await this.props.dispatch(novels.getNovels(`?title=${p}`));
+					this.setState({
+						book: this.props.novels.novelData,
+					});
+				};
+
+				d(this.state.searchVal);
+				break;
+		}
 	};
 
 	render() {
@@ -152,7 +184,7 @@ class Home extends Component {
 
 		return (
 			<div className='home-page'>
-				<NaviBar onClickGenre={this.filterGenre}>
+				<NaviBar onClickGenre={this.filterGenre} searchOpt={this.searchBy}>
 					<NavbarContent
 						searchVal={this.state.searchVal}
 						onSearch={this.onSearch}
