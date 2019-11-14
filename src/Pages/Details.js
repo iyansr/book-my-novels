@@ -113,9 +113,9 @@ class Details extends Component {
 			icon: 'warning',
 			buttons: true,
 			dangerMode: true,
-		}).then(async willDelete => {
+		}).then(willDelete => {
 			if (willDelete) {
-				await this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
+				this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
 					swal('Poof! Novel has been deleted!', {
 						icon: 'success',
 					}).then(() => (window.location.href = '/'))
