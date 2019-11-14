@@ -42,7 +42,7 @@ A Collection Of Novels Using ReactJS Redux
 ## Build Setup
 
 1. Clone repository
-   `$ git clonehttps://github.com/iyansr/book-my-novels.git`
+   `$ git clone https://github.com/iyansr/book-my-novels.git`
 
 2. Install depedencies
 
