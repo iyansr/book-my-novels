@@ -23,13 +23,16 @@ class NaviBar extends React.Component {
 
 				<DropDownItems id='all-categories'>{mappingGenre}</DropDownItems>
 				<DropDownItems id='all-times'>
-					{allTimes.map((time, index) => {
-						return (
-							<li key={index}>
-								<a href='#!'>{time}</a>
-							</li>
-						);
-					})}
+					<li>
+						<a href='#!' onClick={this.props.searchOpt}>
+							Title
+						</a>
+					</li>
+					<li>
+						<a href='#!' onClick={this.props.searchOpt}>
+							Author
+						</a>
+					</li>
 				</DropDownItems>
 				{this.props.children}
 			</nav>
