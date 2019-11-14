@@ -14,6 +14,8 @@ A Collection Of Novels Using ReactJS Redux
     <a href="#">
     <img alt="David" src="https://img.shields.io/david/dev/iyansr/book-my-novels">
   </a>
+</p>
+<p>
   <a href="#">
     <img title="Open Source Love" src="https://badges.frapsoft.com/os/v1/open-source.svg?v=102">
   </a>
