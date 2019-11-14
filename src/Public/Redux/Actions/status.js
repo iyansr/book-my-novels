@@ -5,6 +5,6 @@ const development = 'http://localhost:3367';
 export const status = () => {
 	return {
 		type: 'GET_STATUS',
-		payload: Axios.get(`${url}/api/status`),
+		payload: Axios.get(`${development}/api/status`),
 	};
 };

@@ -1,19 +1,18 @@
 import React from 'react';
 import SideNav from './SideNav';
 import DropDownItems from './Dropdown';
-import NavbarContent from './NavbarContent';
 import './Navbar.css';
-import allTimes from '../../Helpers/allTImes';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class NaviBar extends React.Component {
 	render() {
 		const mappingGenre = this.props.genres.genreData.map((cat, index) => {
 			return (
 				<li key={cat.id}>
-					<a href='#!' onClick={this.props.onClickGenre} key={cat.id}>
+					<Link onClick={this.props.onClickGenre} key={cat.id}>
 						{cat.genre}
-					</a>
+					</Link>
 				</li>
 			);
 		});
@@ -24,14 +23,10 @@ class NaviBar extends React.Component {
 				<DropDownItems id='all-categories'>{mappingGenre}</DropDownItems>
 				<DropDownItems id='all-times'>
 					<li>
-						<a href='#!' onClick={this.props.searchOpt}>
-							Title
-						</a>
+						<Link onClick={this.props.searchOpt}>Title</Link>
 					</li>
 					<li>
-						<a href='#!' onClick={this.props.searchOpt}>
-							Author
-						</a>
+						<Link onClick={this.props.searchOpt}>Author</Link>
 					</li>
 				</DropDownItems>
 				{this.props.children}
