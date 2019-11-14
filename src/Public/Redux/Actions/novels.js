@@ -31,7 +31,7 @@ export const novels = {
 	deleteNovel: id_book => {
 		return {
 			type: 'DELETE_NOVEL',
-			payload: Axios.delete(`http://localhost:3367/api/novel/${id_book}`),
+			payload: Axios.delete(`${url}/${id_book}`),
 		};
 	},
 };
