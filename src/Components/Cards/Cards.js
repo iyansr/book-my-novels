@@ -3,7 +3,16 @@ import './Card.css';
 import { Link } from 'react-router-dom';
 
 const Cards = props => {
-	const { img, to, title, description, alt, novelStatus, badgeColor } = props;
+	const {
+		img,
+		to,
+		title,
+		description,
+		alt,
+		novelStatus,
+		badgeColor,
+		genre,
+	} = props;
 	return (
 		<div className='col s12 m4'>
 			<div
@@ -34,6 +43,12 @@ const Cards = props => {
 							data-badge-caption=' '
 							style={{ marginLeft: '0' }}>
 							{novelStatus}
+						</span>
+						<span
+							className={`new badge left `}
+							data-badge-caption=' '
+							style={{ marginLeft: '10px' }}>
+							{genre}
 						</span>
 					</p>
 					<br />

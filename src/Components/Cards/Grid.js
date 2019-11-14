@@ -7,6 +7,7 @@ const Grid = props => {
 			{props.book.map(book => {
 				return (
 					<Cards
+						genre={book.genre}
 						alt={book.title.trim()}
 						to={`details/${book.id}`}
 						key={book.id}
