@@ -17,31 +17,29 @@ const DetailNav = props => {
 
 				<ul className='right'>
 					<li>
-						<a
-							className='modal-trigger'
+						<button
+							className='modal-trigger transparent z-depth-0 btn'
 							data-target='editNovelModal'
-							href={`#!`}
 							style={{
 								fontWeight: 'bolder',
-								fontSize: '24px',
+								fontSize: '20px',
 								textShadow: '2px 2px black',
 							}}>
 							Edit
-						</a>
+						</button>
 					</li>
 					<li>
-						<a
+						<button
 							onClick={onDelete}
-							className='modal-trigger'
+							className='transparent z-depth-0 btn'
 							data-target='modalAlert'
-							href={`#!`}
 							style={{
 								fontWeight: 'bolder',
-								fontSize: '24px',
+								fontSize: '20px',
 								textShadow: '2px 2px black',
 							}}>
 							Delete
-						</a>
+						</button>
 					</li>
 				</ul>
 			</div>

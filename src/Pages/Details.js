@@ -100,8 +100,6 @@ class Details extends Component {
 		};
 
 		putNovel(newNovel, id_book);
-
-		console.log({ submit: newNovel });
 	};
 
 	deleteHandler = () => {
@@ -113,9 +111,9 @@ class Details extends Component {
 			icon: 'warning',
 			buttons: true,
 			dangerMode: true,
-		}).then(async willDelete => {
+		}).then(willDelete => {
 			if (willDelete) {
-				await this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
+				this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
 					swal('Poof! Novel has been deleted!', {
 						icon: 'success',
 					}).then(() => (window.location.href = '/'))
@@ -130,8 +128,6 @@ class Details extends Component {
 		if (typeof this.state.book === 'undefined') {
 			return <Redirect to='/' />;
 		} else {
-			console.log('tembook ', this.state.tempBook);
-
 			const {
 				title,
 				author,

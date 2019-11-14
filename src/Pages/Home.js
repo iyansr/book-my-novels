@@ -132,6 +132,7 @@ class Home extends Component {
 	onSearch = e => {
 		e.preventDefault();
 
+
 		switch (this.state.searchBy) {
 			case 'title':
 				const search = async p => {
@@ -161,6 +162,7 @@ class Home extends Component {
 						book: this.props.novels.novelData,
 					});
 				};
+
 
 				d(this.state.searchVal);
 				break;
