@@ -24,9 +24,9 @@ const NavbarContent = props => {
 	// render() {
 	return (
 		<div className='nav-wrapper z-depth-2 purple darken-3'>
-			<a href='/#' data-target='slide-out' className='sidenav-trigger'>
+			<Link data-target='slide-out' className='sidenav-trigger'>
 				<i className='material-icons white-text '>menu</i>
-			</a>
+			</Link>
 
 			<Link to='/' className='brand-logo right white-text'>
 				<img
@@ -42,33 +42,30 @@ const NavbarContent = props => {
 
 			<ul className='left hide-on-med-and-down'>
 				<li>
-					<a href='/#'>
+					<Link>
 						<i
 							data-target='slide-out'
 							className='material-icons white-text sidenav-trigger left'>
 							menu
 						</i>
-					</a>
+					</Link>
 				</li>
 				<li>
-					<a
+					<Link
 						className='dropdown-trigger white-text'
-						href='/#'
 						data-target='all-categories'>
 						All Categories
 						<i className='material-icons right white-text'>arrow_drop_down</i>
-					</a>
+					</Link>
 				</li>
 
 				<li>
-					<a
-						className='dropdown-trigger white-text'
-						href='/#'
-						data-target='all-times'>
-						All Times
+					<Link className='dropdown-trigger white-text' data-target='all-times'>
+						Search By..
 						<i className='material-icons right white-text'>arrow_drop_down</i>
-					</a>
+					</Link>
 				</li>
+
 				<li>
 					<div className='input-field brand-logo center'>
 						<form onSubmit={props.onSearch}>

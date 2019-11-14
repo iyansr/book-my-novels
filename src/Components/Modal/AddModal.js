@@ -54,6 +54,8 @@ class AddModal extends Component {
 									placeholder='Title'
 									value={title}
 									onChange={onChange}
+									required
+									data-error='Field Cannot be Empry'
 								/>
 								<label className='active' htmlFor='title'>
 									Title
@@ -69,6 +71,8 @@ class AddModal extends Component {
 									placeholder='Author'
 									value={author}
 									onChange={onChange}
+									required
+									data-error='Field Cannot be Empry'
 								/>
 								<label className='active' htmlFor='author'>
 									Author
@@ -84,6 +88,8 @@ class AddModal extends Component {
 									placeholder='Image URL'
 									value={image_url}
 									onChange={onChange}
+									required
+									data-error='Field Cannot be Empry'
 								/>
 								<label className='active' htmlFor='image_url'>
 									Image Url
@@ -136,6 +142,8 @@ class AddModal extends Component {
 									placeholder='Description'
 									value={description}
 									onChange={onChange}
+									required
+									data-error='Field Cannot be Empry'
 								/>
 								<label className='active' htmlFor='description'>
 									Description
@@ -144,7 +152,7 @@ class AddModal extends Component {
 							<div className='modal-footer'>
 								<button
 									type='submit'
-									className={`btn modal-close ${disabled}`}
+									className={`btn  ${disabled}`}
 									style={{ marginBottom: '20px' }}>
 									Save
 								</button>
