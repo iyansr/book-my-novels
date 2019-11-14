@@ -100,8 +100,6 @@ class Details extends Component {
 		};
 
 		putNovel(newNovel, id_book);
-
-		console.log({ submit: newNovel });
 	};
 
 	deleteHandler = () => {
@@ -130,8 +128,6 @@ class Details extends Component {
 		if (typeof this.state.book === 'undefined') {
 			return <Redirect to='/' />;
 		} else {
-			console.log('tembook ', this.state.tempBook);
-
 			const {
 				title,
 				author,

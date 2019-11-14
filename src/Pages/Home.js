@@ -123,8 +123,6 @@ class Home extends Component {
 	onSearch = e => {
 		e.preventDefault();
 
-		console.log('search..', this.state.searchVal);
-
 		const search = async p => {
 			await this.props.dispatch(novels.getNovels(`?title=${p}`));
 			this.setState({
