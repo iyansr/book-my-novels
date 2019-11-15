@@ -1,10 +1,10 @@
-# 📚Novel Library Frontend
+# 📚BOOK MY NOVELS
 
-A Collection Of Novels Using ReactJS
+A Collection Of Novels Using ReactJS Redux
 
 <p align="center">
   <a href="https://nodejs.org/">
-    <img title="Restful API" height='200' src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png">
+    <img title="Restful API" height='200' src="https://res.cloudinary.com/iyansrcloud/image/upload/v1573753533/git/purple_r25rq7.jpg">
   </a>
 </p>
 <p align="center">
@@ -12,8 +12,10 @@ A Collection Of Novels Using ReactJS
     <img title="MIT license" src="http://img.shields.io/badge/license-MIT-brightgreen.svg">
   </a>
     <a href="#">
-    <img alt="David" src="https://img.shields.io/david/dev/iyansr/novel-library-api">
+    <img alt="David" src="https://img.shields.io/david/dev/iyansr/book-my-novels">
   </a>
+</p>
+<p align="center">
   <a href="#">
     <img title="Open Source Love" src="https://badges.frapsoft.com/os/v1/open-source.svg?v=102">
   </a>
@@ -22,13 +24,16 @@ A Collection Of Novels Using ReactJS
   </a>
   <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg"></a>
   <a href="#">
-    <img title="Repo Size" src="https://img.shields.io/github/repo-size/iyansr/novel-library-web">
+    <img title="Repo Size" src="https://img.shields.io/github/repo-size/iyansr/book-my-novels">
+  </a>
+  <a href="https://amazing-ardinghelli-e67969.netlify.com/">
+    <img title="Netlify" src="https://api.netlify.com/api/v1/badges/2a2e2140-fa43-4c5d-95af-b0f01655a0b7/deploy-status">
   </a>
 </p>
 
 ## Table Of Contents
 
-- [Novel Library Frontend](#novel-library-frontend)
+- [Book My Novels](#book-my-novels)
   - [Table Of Content](#table-of-content)
   - [Build Setup](#build-setup)
   - [Stacks](#stacks)
@@ -39,7 +44,7 @@ A Collection Of Novels Using ReactJS
 ## Build Setup
 
 1. Clone repository
-   `$ git clone https://github.com/iyansr/novel-library-web.git`
+   `$ git clone https://github.com/iyansr/book-my-novels.git`
 
 2. Install depedencies
 
@@ -61,11 +66,18 @@ $ npm start
 
 - ReactJS
 - Materialize CSS
+- Redux
+- NodeJS
+- Express
 
 ## Dependencies
 
 - [materialize-css](https://www.npmjs.com/package/materialize-css) - Materialize, a CSS Framework based on material design.
 - [react-router-dom](https://www.npmjs.com/package/react-router-dom) - DOM bindings for React Router.
+- [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware) - Redux Promise Middleware enables simple, yet robust handling of async action creators in Redux.
+- [react-redux](https://www.npmjs.com/package/react-redux) - Official React bindings for Redux. Performant and flexible.
+- [axios](https://www.npmjs.com/package/axios) - Promise based HTTP client for the browser and node.js
+- [redux](https://www.npmjs.com/package/redux) - Redux is a predictable state container for JavaScript apps.
 
 ## Aplication Structure
 
@@ -81,17 +93,7 @@ $ npm start
 
 ## Screenshots
 
-![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-21_onuasj.png)
-
-![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-24_nc2ba5.png)
-
-![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-29_iqc3ih.png)
-
-![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-31-42_ngty4n.png)
-
-![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-33-01_pz5m4z.png)
-
-![Details](https://res.cloudinary.com/iyansrcloud/image/upload/v1573241691/git/Screenshot_from_2019-11-09_02-33-05_zedbbf.png)
+![Home](https://res.cloudinary.com/iyansrcloud/image/upload/v1573753070/git/screencapture-amazing-ardinghelli-e67969-netlify-2019-11-15-00_26_10_n2lway.jpg)
 
 ---
 

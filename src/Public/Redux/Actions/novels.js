@@ -10,12 +10,6 @@ export const novels = {
 			payload: Axios.get(`${url}/api/novel${query}`),
 		};
 	},
-	getNovelsById: id_book => {
-		return {
-			type: 'GET_NOVELSBYID',
-			payload: Axios.get(`${url}/api/novel/${id_book}`),
-		};
-	},
 	postNovel: newNovel => {
 		return {
 			type: 'POST_NOVEL',

@@ -39,15 +39,15 @@ const Cards = props => {
 					}}>
 					<p style={{ marginTop: '-5px' }}>
 						<span
-							className={`new badge left ${badgeColor}`}
+							className={`new badge left ${badgeColor} `}
 							data-badge-caption=' '
-							style={{ marginLeft: '0' }}>
+							style={{ marginLeft: '0', borderRadius: '10px' }}>
 							{novelStatus}
 						</span>
 						<span
-							className={`new badge left `}
+							className={`new badge left purple darken-3`}
 							data-badge-caption=' '
-							style={{ marginLeft: '10px' }}>
+							style={{ marginLeft: '10px', borderRadius: '10px' }}>
 							{genre}
 						</span>
 					</p>

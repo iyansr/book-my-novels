@@ -149,7 +149,8 @@ class Details extends Component {
 						<FloatingCard image_url={image_url} alt={title} />
 
 						<button
-							className={`btn-large ${btnStatus} z-depth-3 right btn-borrow`}>
+							className={`btn-large ${btnStatus} z-depth-3 right btn-borrow purple darken-3`}
+							style={{ borderRadius: '12px' }}>
 							Borrow
 						</button>
 					</div>
