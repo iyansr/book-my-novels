@@ -162,7 +162,7 @@ class Details extends Component {
 			formData.append('length', this.state.tempBook.length);
 			const { id_book } = this.props.match.params;
 			await this.props.dispatch(editNovel(id_book, formData));
-			window.location.reload(true);
+			window.location.href = `/details/${id_book}`;
 			this.setState({
 				btnLoading: false,
 			});
