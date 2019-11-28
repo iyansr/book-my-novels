@@ -4,7 +4,7 @@ export const loginAdmin = data => {
 	return {
 		type: 'GET_ADMIN',
 		payload: Axios.post(
-			`http://localhost:9600/api/v2/users/login/admin`,
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/users/login/admin`,
 			data,
 			{
 				headers: { 'content-type': 'multipart/form-data' },

@@ -66,11 +66,6 @@ const SideNav = props => {
 					</li>
 				)}
 
-				<li>
-					<Link>
-						<i className='material-icons sidenav-close'>history</i>History
-					</Link>
-				</li>
 				{props.user.role === 1 ? (
 					<li
 						className='sidenav-close'

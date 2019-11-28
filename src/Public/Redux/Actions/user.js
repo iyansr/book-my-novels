@@ -3,33 +3,44 @@ import Axios from 'axios';
 export const login = data => {
 	return {
 		type: 'GET_USER',
-		payload: Axios.post(`http://localhost:9600/api/v2/users/login`, data, {
-			headers: { 'content-type': 'multipart/form-data' },
-		}),
+		payload: Axios.post(
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/users/login`,
+			data,
+			{ headers: { 'content-type': 'multipart/form-data' } }
+		),
 	};
 };
 
 export const register = data => {
 	return {
 		type: 'REGISTER_USER',
-		payload: Axios.post(`http://localhost:9600/api/v2/users/register`, data, {
-			headers: { 'content-type': 'multipart/form-data' },
-		}),
+		payload: Axios.post(
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/users/register`,
+			data,
+			{
+				headers: { 'content-type': 'multipart/form-data' },
+			}
+		),
 	};
 };
 export const borrowList = user_id => {
 	return {
 		type: 'BORROW',
-		payload: Axios.get(`http://localhost:9600/api/v2/borrowlist/${user_id}`, {
-			headers: { Authorization: 'bearer ' + localStorage.getItem('userToken') },
-		}),
+		payload: Axios.get(
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/borrowlist/${user_id}`,
+			{
+				headers: {
+					Authorization: 'bearer ' + localStorage.getItem('userToken'),
+				},
+			}
+		),
 	};
 };
 export const borrowHistoryList = user_id => {
 	return {
 		type: 'BORROW_HISTORY',
 		payload: Axios.get(
-			`http://localhost:9600/api/v2/borrowlist/history/${user_id}`,
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/borrowlist/history/${user_id}`,
 			{
 				headers: {
 					Authorization: 'bearer ' + localStorage.getItem('userToken'),
@@ -42,7 +53,7 @@ export const addBorrow = (user_id, data) => {
 	return {
 		type: 'ADD_BORROW',
 		payload: Axios.post(
-			`http://localhost:9600/api/v2/borrowlist/${user_id}`,
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/borrowlist/${user_id}`,
 			data,
 			{
 				headers: {
@@ -56,7 +67,7 @@ export const returnBorrow = (user_id, data) => {
 	return {
 		type: 'RETURN_BORROW',
 		payload: Axios.patch(
-			`http://localhost:9600/api/v2/borrowlist/${user_id}`,
+			`https://stormy-eyrie-12807.herokuapp.com/api/v2/borrowlist/${user_id}`,
 			data,
 			{
 				headers: {

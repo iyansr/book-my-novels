@@ -5,6 +5,6 @@ import Axios from 'axios';
 export const genres = () => {
 	return {
 		type: 'GET_GENRES',
-		payload: Axios.get(`http://localhost:9600/api/v2/genre`),
+		payload: Axios.get(`https://stormy-eyrie-12807.herokuapp.com/api/v2/genre`),
 	};
 };

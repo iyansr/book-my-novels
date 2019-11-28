@@ -45,6 +45,7 @@ class Details extends Component {
 			genreDropDown: [],
 			statusDropDown: [],
 			btnLoading: false,
+			stateLoading: true,
 		};
 	}
 
@@ -98,6 +99,7 @@ class Details extends Component {
 					height: parseFloat(height),
 					length: parseFloat(length),
 				},
+				stateLoading: false,
 			});
 		} catch (error) {
 			this.setState({
@@ -231,106 +233,112 @@ class Details extends Component {
 			this.state.errors === 405
 		) {
 			return (window.location.href = '/');
-		} else {
-			const {
-				title,
-				author,
-				image,
-				description,
-				Status,
-				Genre,
-				novel_id,
-				pages,
-				isbn,
-				vendor,
-				weight,
-				height,
-				length,
-				createdAt,
-			} = this.state.book;
-			console.log('USER', this.state.user.user_id);
-			const btnStatus =
-				Status === 'Empty' || this.state.user.role === 2 ? 'disabled' : '';
-			return (
-				<div>
-					<div
-						className='top-cover'
-						style={{
-							backgroundImage: `url('${image}')`,
-						}}>
-						<DetailNav
-							onDelete={this.deleteHandler.bind(this)}
-							to='/'
-							index={novel_id}
-							user={this.state.user}
-						/>
-						<FloatingCard image_url={image} alt={title} />
-
-						<button
-							onClick={this.handleBorrow.bind(this)}
-							className={`btn-large ${btnStatus} z-depth-3 right btn-borrow purple darken-3`}
-							style={{ borderRadius: '12px' }}>
-							Borrow
-						</button>
-					</div>
-					<EditModalImage
-						onSubmitImg={this.onSubmitImg.bind(this)}
-						modalId='editImageModal'
-						modalTitle='Change Image'
-						isLoading={this.state.btnLoading}
-						onChangeImg={e => {
-							e.preventDefault();
-							this.setState({
-								image: e.target.value,
-								imageVal: e.target.files[0],
-							});
-						}}
-					/>
-					<EditModal
-						isActive={true}
-						modalTitle='Edit Novel'
-						modalId='editNovelModal'
-						genre_id={this.state.tempBook.genre}
-						title={this.state.tempBook.title}
-						author={this.state.tempBook.author}
-						// image_url={this.state.image}
-						status_id={this.state.tempBook.status}
-						description={this.state.tempBook.description}
-						onChange={this.handleChange.bind(this)}
-						onSubmit={this.updateNovel.bind(this)}
-						sDropDown={this.state.statusDropDown}
-						gDropDown={this.state.genreDropDown}
-						pages={this.state.tempBook.pages}
-						isbn={this.state.tempBook.isbn}
-						vendor={this.state.tempBook.vendor}
-						weight={this.state.tempBook.weight}
-						height={this.state.tempBook.height}
-						length={this.state.tempBook.length}
-						isLoading={this.state.btnLoading}
-					/>
-					<ContainerDetail
-						// index={id}
-						desc={description}
-						title={title}
-						status={Status}
-						genre={Genre}
-						author={author}
-						pages={pages}
-						isbn={isbn}
-						vendor={vendor}
-						weight={weight}
-						height={height}
-						length={length}
-						published={createdAt}
-					/>
-					<div className='fixed-action-btn'>
-						<button className={`btn-floating btn-large ${btnStatus}`}>
-							<i className='large material-icons'>add</i>
-						</button>
-					</div>
-				</div>
-			);
 		}
+
+		if (this.state.stateLoading) {
+			return <p>Loading...</p>;
+		}
+
+		// else {
+		const {
+			title,
+			author,
+			image,
+			description,
+			Status,
+			Genre,
+			novel_id,
+			pages,
+			isbn,
+			vendor,
+			weight,
+			height,
+			length,
+			createdAt,
+		} = this.state.book;
+		console.log('USER', this.state.user.user_id);
+		const btnStatus =
+			Status === 'Empty' || this.state.user.role === 2 ? 'disabled' : '';
+		return (
+			<div>
+				<div
+					className='top-cover'
+					style={{
+						backgroundImage: `url('${image}')`,
+					}}>
+					<DetailNav
+						onDelete={this.deleteHandler.bind(this)}
+						to='/'
+						index={novel_id}
+						user={this.state.user}
+					/>
+					<FloatingCard image_url={image} alt={title} />
+
+					<button
+						onClick={this.handleBorrow.bind(this)}
+						className={`btn-large ${btnStatus} z-depth-3 right btn-borrow purple darken-3`}
+						style={{ borderRadius: '12px' }}>
+						Borrow
+					</button>
+				</div>
+				<EditModalImage
+					onSubmitImg={this.onSubmitImg.bind(this)}
+					modalId='editImageModal'
+					modalTitle='Change Image'
+					isLoading={this.state.btnLoading}
+					onChangeImg={e => {
+						e.preventDefault();
+						this.setState({
+							image: e.target.value,
+							imageVal: e.target.files[0],
+						});
+					}}
+				/>
+				<EditModal
+					isActive={true}
+					modalTitle='Edit Novel'
+					modalId='editNovelModal'
+					genre_id={this.state.tempBook.genre}
+					title={this.state.tempBook.title}
+					author={this.state.tempBook.author}
+					// image_url={this.state.image}
+					status_id={this.state.tempBook.status}
+					description={this.state.tempBook.description}
+					onChange={this.handleChange.bind(this)}
+					onSubmit={this.updateNovel.bind(this)}
+					sDropDown={this.state.statusDropDown}
+					gDropDown={this.state.genreDropDown}
+					pages={this.state.tempBook.pages}
+					isbn={this.state.tempBook.isbn}
+					vendor={this.state.tempBook.vendor}
+					weight={this.state.tempBook.weight}
+					height={this.state.tempBook.height}
+					length={this.state.tempBook.length}
+					isLoading={this.state.btnLoading}
+				/>
+				<ContainerDetail
+					// index={id}
+					desc={description}
+					title={title}
+					status={Status}
+					genre={Genre}
+					author={author}
+					pages={pages}
+					isbn={isbn}
+					vendor={vendor}
+					weight={weight}
+					height={height}
+					length={length}
+					published={createdAt}
+				/>
+				<div className='fixed-action-btn'>
+					<button className={`btn-floating btn-large ${btnStatus}`}>
+						<i className='large material-icons'>add</i>
+					</button>
+				</div>
+			</div>
+		);
+		// }
 	}
 }
 
