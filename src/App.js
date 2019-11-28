@@ -48,9 +48,9 @@ class App extends Component {
 						path='/'
 						component={() => <Home user={this.state.user} />}
 					/>
-					<Route path='/profile/:id_user' component={Profile} />
-					<Route path='/admin' component={Admin} />
-					<Route path='/details/:id_book' component={Details} />
+					<Route exact path='/profile/:id_user' component={Profile} />
+					<Route exact path='/admin' component={Admin} />
+					<Route exact path='/details/:id_book' component={Details} />
 				</Router>
 			</Provider>
 		);
