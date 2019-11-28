@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import M from 'materialize-css';
 
-class AddModal extends Component {
+class EditModal extends Component {
 	componentDidMount() {
 		const elems = document.querySelectorAll('select');
 		M.FormSelect.init(elems);
@@ -14,7 +14,6 @@ class AddModal extends Component {
 		const {
 			title,
 			author,
-			image_url,
 			description,
 			status_id,
 			genre_id,
@@ -25,7 +24,6 @@ class AddModal extends Component {
 			gDropDown,
 			sDropDown,
 			isLoading,
-			onChangeImg,
 			pages,
 			isbn,
 			vendor,
@@ -80,12 +78,13 @@ class AddModal extends Component {
 								<label htmlFor='author'>Author</label>
 							</div>
 
-							<div className='file-field input-field col m12'>
-								<div className='btn purple darken-4'>
-									<span>Select Image</span>
+							{/* <div className='file-field input-field col m12'>
+								<div className='btn'>
+									<span>File</span>
 									<input
 										type='file'
 										name='image'
+										type='file'
 										value={image_url}
 										onChange={onChangeImg}
 									/>
@@ -93,7 +92,7 @@ class AddModal extends Component {
 								<div className='file-path-wrapper'>
 									<input class='file-path validate' type='text' />
 								</div>
-							</div>
+							</div> */}
 
 							<div className='input-field col m12'>
 								<i className='material-icons prefix'>account_circle</i>
@@ -305,4 +304,4 @@ class AddModal extends Component {
 	}
 }
 
-export default AddModal;
+export default EditModal;

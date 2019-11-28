@@ -1,14 +1,22 @@
-const initState = {
-	novelData: [],
-	error: {},
+const initialState = {
+	userData: [],
+	error: {
+		error: false,
+	},
+	errorHistory: {
+		error: false,
+	},
+	userToken: '',
+	borrow: [],
+	historyList: [],
 	isLoading: false,
 	isRejected: false,
 	isFulfilled: false,
 };
 
-export const novels = (prevState = initState, action) => {
+export const user = (prevState = initialState, action) => {
 	switch (action.type) {
-		case 'GET_NOVELS_PENDING':
+		case 'GET_USER_PENDING':
 			return {
 				...prevState,
 				isLoading: true,
@@ -16,21 +24,23 @@ export const novels = (prevState = initState, action) => {
 				isFulfilled: false,
 			};
 
-		case 'GET_NOVELS_REJECTED':
+		case 'GET_USER_REJECTED':
 			return {
 				...prevState,
 				isLoading: false,
 				isRejected: true,
 				error: action.payload.response.data,
 			};
-		case 'GET_NOVELS_FULFILLED':
+
+		case 'GET_USER_FULFILLED':
 			return {
 				...prevState,
 				isLoading: false,
 				isFulfilled: true,
-				novelData: action.payload.data,
+				error: {},
+				userToken: localStorage.setItem('userToken', action.payload.data),
 			};
-		case 'GET_ONE_NOVEL_PENDING':
+		case 'REGISTER_USER_PENDING':
 			return {
 				...prevState,
 				isLoading: true,
@@ -38,22 +48,21 @@ export const novels = (prevState = initState, action) => {
 				isFulfilled: false,
 			};
 
-		case 'GET_ONE_NOVEL_REJECTED':
+		case 'REGISTER_USER_REJECTED':
 			return {
 				...prevState,
 				isLoading: false,
 				isRejected: true,
-				error: action.payload.response.status,
+				error: action.payload.response.data,
 			};
-		case 'GET_ONE_NOVEL_FULFILLED':
+
+		case 'REGISTER_USER_FULFILLED':
 			return {
 				...prevState,
 				isLoading: false,
 				isFulfilled: true,
-				novelData: action.payload.data,
 			};
-
-		case 'ADD_NOVEL_PENDING':
+		case 'BORROW_PENDING':
 			return {
 				...prevState,
 				isLoading: true,
@@ -61,20 +70,22 @@ export const novels = (prevState = initState, action) => {
 				isFulfilled: false,
 			};
 
-		case 'ADD_NOVEL_REJECTED':
+		case 'BORROW_REJECTED':
 			return {
 				...prevState,
 				isLoading: false,
 				isRejected: true,
+				error: action.payload.response.data,
 			};
-		case 'ADD_NOVEL_FULFILLED':
+
+		case 'BORROW_FULFILLED':
 			return {
 				...prevState,
 				isLoading: false,
 				isFulfilled: true,
+				borrow: action.payload.data.borrow,
 			};
-
-		case 'EDIT_NOVEL_PENDING':
+		case 'BORROW_HISTORY_PENDING':
 			return {
 				...prevState,
 				isLoading: true,
@@ -82,20 +93,22 @@ export const novels = (prevState = initState, action) => {
 				isFulfilled: false,
 			};
 
-		case 'EDIT_NOVEL_REJECTED':
+		case 'BORROW_HISTORY_REJECTED':
 			return {
 				...prevState,
 				isLoading: false,
 				isRejected: true,
-				error: action.payload.response.status,
+				errorHistory: action.payload.response.data,
 			};
-		case 'EDIT_NOVEL_FULFILLED':
+
+		case 'BORROW_HISTORY_FULFILLED':
 			return {
 				...prevState,
 				isLoading: false,
 				isFulfilled: true,
+				historyList: action.payload.data.borrow,
 			};
-		case 'DELETE_NOVEL_PENDING':
+		case 'ADD_BORROW_PENDING':
 			return {
 				...prevState,
 				isLoading: true,
@@ -103,19 +116,42 @@ export const novels = (prevState = initState, action) => {
 				isFulfilled: false,
 			};
 
-		case 'DELETE_NOVEL_REJECTED':
+		case 'ADD_BORROW_REJECTED':
 			return {
 				...prevState,
 				isLoading: false,
 				isRejected: true,
+				error: action.payload.response.data,
 			};
-		case 'DELETE_NOVEL_FULFILLED':
+
+		case 'ADD_BORROW_FULFILLED':
 			return {
 				...prevState,
 				isLoading: false,
 				isFulfilled: true,
 			};
+		case 'RETURN_BORROW_PENDING':
+			return {
+				...prevState,
+				isLoading: true,
+				isRejected: false,
+				isFulfilled: false,
+			};
 
+		case 'RETURN_BORROW_REJECTED':
+			return {
+				...prevState,
+				isLoading: false,
+				isRejected: true,
+				error: action.payload.response.data,
+			};
+
+		case 'RETURN_BORROW_FULFILLED':
+			return {
+				...prevState,
+				isLoading: false,
+				isFulfilled: true,
+			};
 		default:
 			return prevState;
 	}

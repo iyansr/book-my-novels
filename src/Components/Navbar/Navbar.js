@@ -1,5 +1,4 @@
 import React from 'react';
-import SideNav from './SideNav';
 import DropDownItems from './Dropdown';
 import './Navbar.css';
 import { connect } from 'react-redux';
@@ -9,8 +8,8 @@ class NaviBar extends React.Component {
 	render() {
 		const mappingGenre = this.props.genres.genreData.map((cat, index) => {
 			return (
-				<li key={cat.id}>
-					<Link onClick={this.props.onClickGenre} key={cat.id}>
+				<li key={cat.genre_id}>
+					<Link onClick={this.props.onClickGenre} key={cat.genre_id}>
 						{cat.genre}
 					</Link>
 				</li>
@@ -18,8 +17,6 @@ class NaviBar extends React.Component {
 		});
 		return (
 			<nav>
-				<SideNav />
-
 				<DropDownItems id='all-categories'>{mappingGenre}</DropDownItems>
 				<DropDownItems id='all-times'>
 					<li>

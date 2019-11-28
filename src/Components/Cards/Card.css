@@ -11,17 +11,31 @@
   padding-right: 1em;
 }
 .block-with-text:before {
-  content: '...';
+  content: "...";
   position: absolute;
   right: 0;
   bottom: 0;
 }
 .block-with-text:after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   width: 1em;
   height: 1em;
   margin-top: 0.2em;
   background: white;
+}
+
+.__card-title {
+  text-overflow: ellipsis;
+  /* height: 10px; */
+  width: 100% !important;
+  display: inline-block;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+}
+.__card_title_disabled {
+  pointer-events: none !important;
 }

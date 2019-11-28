@@ -1,24 +1,37 @@
 import React from 'react';
 import Cards from './Cards';
+import LoadingCard from './LoadingCard';
 
 const Grid = props => {
+	if (props.isLoading) {
+		return (
+			<div className='row'>
+				<LoadingCard />
+				<LoadingCard />
+				<LoadingCard />
+				<LoadingCard />
+				<LoadingCard />
+				<LoadingCard />
+			</div>
+		);
+	}
+
 	return (
 		<div className='row'>
 			{props.book.map(book => {
 				return (
 					<Cards
-						genre={book.genre}
+						user={props.user}
+						genre={book.Genre}
 						alt={book.title.trim()}
-						to={`details/${book.id}`}
-						key={book.id}
+						to={`details/${book.novel_id}`}
+						key={book.novel_id}
 						title={book.title}
-						img={book.image_url}
+						img={book.image}
 						description={book.description}
-						novelStatus={book.novel_status}
+						novelStatus={book.Status}
 						badgeColor={
-							book.novel_status === 'Available'
-								? 'green accent-4'
-								: 'pink lighten-3'
+							book.Status === 'Available' ? 'green accent-4' : 'pink lighten-3'
 						}
 					/>
 				);

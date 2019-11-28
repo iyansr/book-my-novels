@@ -4,48 +4,113 @@ import M from 'materialize-css';
 import DetailNav from '../Components/DetailNav/DetailNav';
 import FloatingCard from '../Components/FloatingCard/FloatingCard';
 import ContainerDetail from '../Components/ContainerDetail/ContainerDetail';
-import AddModal from '../Components/Modal/AddModal';
 import swal from 'sweetalert';
-import { Redirect } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
 
 import { connect } from 'react-redux';
-import { novels } from '../Public/Redux/Actions/novels';
+import {
+	getOneNovels,
+	editNovel,
+	deleteNovel,
+} from '../Public/Redux/Actions/novels';
+import { genres } from '../Public/Redux/Actions/genres';
+import { status } from '../Public/Redux/Actions/status';
+import EditModal from '../Components/Modal/EditModal';
+import EditModalImage from '../Components/Modal/EditImageModal';
+import { addBorrow } from '../Public/Redux/Actions/user';
+// addBorrow
 
 class Details extends Component {
 	constructor(props) {
 		super(props);
-		const { novelData } = this.props.novels;
-
-		const { id_book } = this.props.match.params;
 		this.state = {
-			book: novelData.filter(data => `${data.id}` === id_book)[0],
+			book: {},
+			errors: {},
+			user: {},
 			tempBook: {
-				...novelData.filter(data => `${data.id}` === id_book)[0],
-				genre: this.props.genres.genreData
-					.filter(
-						g =>
-							g.genre ===
-							novelData.filter(data => `${data.id}` === id_book)[0].genre
-					)[0]
-					.id.toString(),
-				novel_status: this.props.status.statusData
-					.filter(
-						s =>
-							s.novel_status ===
-							novelData.filter(data => `${data.id}` === id_book)[0].novel_status
-					)[0]
-					.id.toString(),
+				title: undefined,
+				author: undefined,
+				description: undefined,
+				status: '',
+				genre: '',
+				pages: '',
+				isbn: '',
+				vendor: '',
+				weight: '',
+				height: '',
+				length: '',
 			},
-
-			genreDropDown: this.props.genres.genreData,
-			statusDropDown: this.props.status.statusData,
+			image: '',
+			imageVal: {},
+			genreDropDown: [],
+			statusDropDown: [],
+			btnLoading: false,
+			stateLoading: true,
 		};
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		try {
+			const { id_book } = this.props.match.params;
+			await this.props.dispatch(genres());
+			await this.props.dispatch(status());
+			await this.props.dispatch(getOneNovels(id_book));
+
+			if (localStorage.getItem('userToken')) {
+				const token = localStorage.getItem('userToken');
+				const decoded = await jwt.decode(token, process.env.JWT_SECRET);
+				this.setState({
+					user: decoded,
+					book: this.props.novels.novelData,
+				});
+			}
+			const {
+				title,
+				author,
+				description,
+				Status,
+				Genre,
+				pages,
+				isbn,
+				vendor,
+				weight,
+				height,
+				length,
+			} = this.state.book;
+			const idGenre = this.props.genres.genreData.filter(gen => {
+				return gen.genre === Genre;
+			})[0].genre_id;
+			const idStatus = this.props.status.statusData.filter(st => {
+				return st.status === Status;
+			})[0].status_id;
+			this.setState({
+				genreDropDown: this.props.genres.genreData,
+				statusDropDown: this.props.status.statusData,
+				tempBook: {
+					title,
+					author,
+					description,
+					status: `${idStatus}`,
+					genre: `${idGenre}`,
+					pages: parseFloat(pages),
+					isbn,
+					vendor,
+					weight: parseFloat(weight),
+					height: parseFloat(height),
+					length: parseFloat(length),
+				},
+				stateLoading: false,
+			});
+		} catch (error) {
+			this.setState({
+				errors: this.props.novels.error,
+			});
+		}
+
 		M.AutoInit();
 		const elems = document.querySelectorAll('select');
 		M.FormSelect.init(elems);
+		M.updateTextFields();
 	}
 
 	handleChange = e => {
@@ -56,146 +121,232 @@ class Details extends Component {
 		});
 	};
 
-	onSubmit = e => {
+	async onSubmitImg(e) {
 		e.preventDefault();
-		const {
-			title,
-			author,
-			image_url,
-			description,
-			novel_status,
-			genre,
-		} = this.state.tempBook;
+		this.setState({
+			btnLoading: true,
+		});
+		try {
+			const formData = new FormData();
+			formData.append('image', this.state.imageVal);
 
-		const newNovel = {
-			title,
-			author,
-			image_url,
-			description,
-			novel_status,
-			genre,
-		};
-
-		const { id_book } = this.props.match.params;
-
-		let putNovel = async (data, id) => {
-			await this.props.dispatch(novels.editNovel(data, id)).then(() => {
-				swal({
-					title: 'Succes Update',
-					text: `${this.state.book.title} has been updated !`,
-					icon: 'success',
-				});
-				this.setState({
-					book: {
-						...data,
-						genre: this.props.genres.genreData.filter(
-							g => `${g.id}` === data.genre
-						)[0].genre,
-						novel_status: this.props.status.statusData.filter(
-							s => `${s.id}` === data.novel_status
-						)[0].novel_status,
-					},
-				});
+			const { id_book } = this.props.match.params;
+			await this.props.dispatch(editNovel(id_book, formData));
+			window.location.reload(true);
+			this.setState({
+				btnLoading: false,
 			});
-		};
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-		putNovel(newNovel, id_book);
-	};
+	async updateNovel(e) {
+		e.preventDefault();
+		this.setState({
+			btnLoading: true,
+		});
+		try {
+			const formData = new FormData();
+			formData.append('title', this.state.tempBook.title);
+			formData.append('author', this.state.tempBook.author);
+			formData.append('description', this.state.tempBook.description);
+			formData.append('status', this.state.tempBook.status);
+			formData.append('genre', this.state.tempBook.genre);
 
-	deleteHandler = () => {
-		const { id_book } = this.props.match.params;
+			formData.append('pages', this.state.tempBook.pages);
+			formData.append('isbn', this.state.tempBook.isbn);
+			formData.append('vendor', this.state.tempBook.vendor);
+			formData.append('weight', this.state.tempBook.weight);
+			formData.append('height', this.state.tempBook.height);
+			formData.append('length', this.state.tempBook.length);
+			const { id_book } = this.props.match.params;
+			await this.props.dispatch(editNovel(id_book, formData));
+			window.location.reload(true);
+			this.setState({
+				btnLoading: false,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
+	handleBorrow(e) {
+		e.preventDefault();
+		swal('Want to borrow this Novel?', {
+			buttons: ['Cancel', true],
+		}).then(async val => {
+			if (val) {
+				try {
+					const { id_book } = this.props.match.params;
+					let formData = new FormData();
+					formData.append('novel_id', id_book);
+					await this.props.dispatch(
+						addBorrow(this.state.user.user_id, formData)
+					);
+					swal('Succes Borrow Novel, return this Novel AS SOON AS POSSIBLE!', {
+						icon: 'success',
+					});
+				} catch (error) {
+					swal('You Already Borrow This Novel', {
+						icon: 'error',
+					});
+				}
+			} else {
+				swal('WHYYY 😥');
+			}
+		});
+	}
+
+	deleteHandler(e) {
+		e.preventDefault();
 		swal({
 			title: 'Are you sure?',
-			text: 'Once deleted, you will not be able to recover this novel!',
+			text: 'Once deleted, you will not be able to recover this Novel!',
 			icon: 'warning',
 			buttons: true,
 			dangerMode: true,
-		}).then(willDelete => {
+		}).then(async willDelete => {
 			if (willDelete) {
-				this.props.dispatch(novels.deleteNovel(id_book)).then(() =>
-					swal('Poof! Novel has been deleted!', {
+				try {
+					const { id_book } = this.props.match.params;
+					await this.props.dispatch(deleteNovel(id_book));
+					swal('Poof! This Novel file has been deleted!', {
 						icon: 'success',
-					}).then(() => (window.location.href = '/'))
-				);
+					}).then(() => (window.location.href = '/admin'));
+				} catch (error) {
+					swal('Something Wrong', {
+						icon: 'error',
+					});
+					console.log(error);
+				}
 			} else {
-				swal('Novel is safe!');
+				swal('Your imaginary file is safe!');
 			}
 		});
-	};
+	}
 
 	render() {
-		if (typeof this.state.book === 'undefined') {
-			return <Redirect to='/' />;
-		} else {
-			const {
-				title,
-				author,
-				image_url,
-				description,
-				novel_status,
-				genre,
-				id,
-			} = this.state.book;
-			const btnStatus = novel_status === 'Available' ? '' : 'disabled';
-			return (
-				<div>
-					<div
-						className='top-cover'
-						style={{
-							backgroundImage: `url('${image_url}')`,
-						}}>
-						<DetailNav onDelete={this.deleteHandler} to='/' index={id} />
-						<FloatingCard image_url={image_url} alt={title} />
-
-						<button
-							className={`btn-large ${btnStatus} z-depth-3 right btn-borrow purple darken-3`}
-							style={{ borderRadius: '12px' }}>
-							Borrow
-						</button>
-					</div>
-					<AddModal
-						modalTitle='Edit Novel'
-						modalId='editNovelModal'
-						genre={this.state.tempBook.genre}
-						title={this.state.tempBook.title}
-						author={this.state.tempBook.author}
-						image_url={this.state.tempBook.image_url}
-						novel_status={this.state.tempBook.novel_status}
-						description={this.state.tempBook.description}
-						onChange={this.handleChange.bind(this)}
-						onSubmit={this.onSubmit.bind(this)}
-						disabled={this.state.btnDisabled}
-						sDropDown={this.props.status.statusData}
-						gDropDown={this.props.genres.genreData}
-					/>
-					{/* asdads */}
-					<ContainerDetail
-						index={id}
-						desc={description}
-						title={title}
-						status={novel_status}
-						genre={genre}
-						author={author}
-					/>
-					<div className='fixed-action-btn'>
-						<button className={`btn-floating btn-large ${btnStatus}`}>
-							<i className='large material-icons'>add</i>
-						</button>
-					</div>
-				</div>
-			);
+		if (
+			!this.state.book ||
+			this.state.errors === 403 ||
+			this.state.errors === 405
+		) {
+			return (window.location.href = '/');
 		}
+
+		if (this.state.stateLoading) {
+			return <p>Loading...</p>;
+		}
+
+		// else {
+		const {
+			title,
+			author,
+			image,
+			description,
+			Status,
+			Genre,
+			novel_id,
+			pages,
+			isbn,
+			vendor,
+			weight,
+			height,
+			length,
+			createdAt,
+		} = this.state.book;
+		console.log('USER', this.state.user.user_id);
+		const btnStatus =
+			Status === 'Empty' || this.state.user.role === 2 ? 'disabled' : '';
+		return (
+			<div>
+				<div
+					className='top-cover'
+					style={{
+						backgroundImage: `url('${image}')`,
+					}}>
+					<DetailNav
+						onDelete={this.deleteHandler.bind(this)}
+						to='/'
+						index={novel_id}
+						user={this.state.user}
+					/>
+					<FloatingCard image_url={image} alt={title} />
+
+					<button
+						onClick={this.handleBorrow.bind(this)}
+						className={`btn-large ${btnStatus} z-depth-3 right btn-borrow purple darken-3`}
+						style={{ borderRadius: '12px' }}>
+						Borrow
+					</button>
+				</div>
+				<EditModalImage
+					onSubmitImg={this.onSubmitImg.bind(this)}
+					modalId='editImageModal'
+					modalTitle='Change Image'
+					isLoading={this.state.btnLoading}
+					onChangeImg={e => {
+						e.preventDefault();
+						this.setState({
+							image: e.target.value,
+							imageVal: e.target.files[0],
+						});
+					}}
+				/>
+				<EditModal
+					isActive={true}
+					modalTitle='Edit Novel'
+					modalId='editNovelModal'
+					genre_id={this.state.tempBook.genre}
+					title={this.state.tempBook.title}
+					author={this.state.tempBook.author}
+					// image_url={this.state.image}
+					status_id={this.state.tempBook.status}
+					description={this.state.tempBook.description}
+					onChange={this.handleChange.bind(this)}
+					onSubmit={this.updateNovel.bind(this)}
+					sDropDown={this.state.statusDropDown}
+					gDropDown={this.state.genreDropDown}
+					pages={this.state.tempBook.pages}
+					isbn={this.state.tempBook.isbn}
+					vendor={this.state.tempBook.vendor}
+					weight={this.state.tempBook.weight}
+					height={this.state.tempBook.height}
+					length={this.state.tempBook.length}
+					isLoading={this.state.btnLoading}
+				/>
+				<ContainerDetail
+					// index={id}
+					desc={description}
+					title={title}
+					status={Status}
+					genre={Genre}
+					author={author}
+					pages={pages}
+					isbn={isbn}
+					vendor={vendor}
+					weight={weight}
+					height={height}
+					length={length}
+					published={createdAt}
+				/>
+				<div className='fixed-action-btn'>
+					<button className={`btn-floating btn-large ${btnStatus}`}>
+						<i className='large material-icons'>add</i>
+					</button>
+				</div>
+			</div>
+		);
+		// }
 	}
 }
 
 const mapStateToProps = state => {
 	return {
 		novels: state.novels,
-		editNovel: state.editNovel,
-		deleteNovel: state.deleteNovel,
-		genres: state.genres,
 		status: state.status,
+		genres: state.genres,
 	};
 };
 
