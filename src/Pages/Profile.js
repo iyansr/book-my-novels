@@ -161,7 +161,7 @@ class Profile extends Component {
 																		)
 																	);
 																	swal('OK', { icon: 'success' }).then(() => {
-																		window.location.reload(true);
+																		window.location.href = `/profile/${this.props.match.params.id_user}`;
 																	});
 																} catch (error) {
 																	swal('ERROR', { icon: 'error' });
