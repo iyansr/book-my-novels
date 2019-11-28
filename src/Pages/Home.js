@@ -2,63 +2,87 @@ import React, { Component } from 'react';
 import NaviBar from '../Components/Navbar/Navbar';
 import Grid from '../Components/Cards/Grid';
 import Footer from '../Components/Footer/Footer';
-import AddModal from '../Components/Modal/AddModal';
 import CarouselCard from '../Components/Carousel/Card';
 import '../Components/Carousel/Carousel.css';
 import NavbarContent from '../Components/Navbar/NavbarContent';
-// import book from '../Helpers/books';
-
 import M from 'materialize-css';
 import { connect } from 'react-redux';
-import { novels } from '../Public/Redux/Actions/novels';
+import { getNovels } from '../Public/Redux/Actions/novels';
 import { genres } from '../Public/Redux/Actions/genres';
-import { status } from '../Public/Redux/Actions/status';
-import LoadingOverlay from 'react-loading-overlay';
-import swal from 'sweetalert';
 import Pagination from '../Components/Pagination';
+import LoginModal from '../Components/Modal/LoginModal';
+import Sidenav from '../Components/Navbar/SideNav';
+import RegisterModal from '../Components/Modal/RegisterModal';
+import CarouselLoading from '../Components/Carousel/CarouselLoading';
+import CarouselGrid from '../Components/Carousel/CarouselGrid';
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			book: [],
-			carouSel: [],
+			novels: {
+				result: [],
+				totalData: 0,
+			},
+			user: { role: '' },
+			carouSel: {
+				result: [],
+				totalData: 0,
+			},
 			genreDropDown: [],
 			statusDropDown: [],
 			tempBook: {
-				title: null,
-				author: null,
-				image_url: null,
-				description: null,
-				novel_status: '1',
-				genre: '1',
+				title: undefined,
+				author: undefined,
+				image: undefined,
+				description: undefined,
+				status: '',
+				genre: '',
 			},
 			btnDisabled: '',
 			isOverLay: false,
 			searchVal: '',
-			postPerPage: 6,
 			currentPage: 1,
 			searchBy: '',
+			error: {},
+			searchByText: 'Search By..',
+			isLoading: true,
 		};
 	}
+
+	getNovel = async (page, title, author, genre) => {
+		try {
+			await this.props.dispatch(
+				getNovels(`?limit=6&page=${page}${title}${author}${genre}`)
+			);
+
+			this.setState({
+				novels: this.props.novels.novelData,
+				carouSel: this.props.novels.novelData,
+				isLoading: false,
+				error: {
+					error: false,
+				},
+			});
+			M.AutoInit();
+		} catch (error) {
+			this.setState({
+				error: this.props.novels.error,
+				isLoading: false,
+			});
+		}
+	};
+
 	async componentDidMount() {
-		await this.props.dispatch(novels.getNovels('?'));
-		await this.props.dispatch(genres());
-		await this.props.dispatch(status());
-
 		this.setState({
-			book: this.props.novels.novelData,
-			carouSel: this.props.novels.novelData,
-			genreDropDown: this.props.genres.genreData,
-			statusDropDown: this.props.status.statusData,
+			user: this.props.user,
 		});
-
-		M.AutoInit();
-		const elems = document.querySelectorAll('.carousel');
-		const options = {
-			duration: 100,
-		};
-		M.Carousel.init(elems, options);
+		this.getNovel(1, '', '', '', '');
+		await this.props.dispatch(genres());
+		this.setState({
+			genreDropDown: this.props.genres.genreData,
+			// statusDropDown: this.props.status.statusData,
+		});
 	}
 
 	handleChange = e => {
@@ -69,182 +93,138 @@ class Home extends Component {
 		});
 	};
 
-	onSubmit = e => {
-		this.setState({
-			btnDisabled: 'disabled',
-			isOverLay: true,
-		});
-		e.preventDefault();
-		const {
-			title,
-			author,
-			image_url,
-			description,
-			novel_status,
-			genre,
-		} = this.state.tempBook;
-
-		const newNovel = {
-			title,
-			author,
-			image_url,
-			description,
-			novel_status,
-			genre,
-		};
-
-		let add = async data => {
-			await this.props.dispatch(novels.postNovel(data)).then(() => {
-				this.setState({
-					isOverLay: false,
-				});
-				swal({
-					icon: 'success',
-					title: 'Success Addinng Novel',
-				}).then(() => (window.location.href = '/'));
-			});
-		};
-		add(newNovel);
-	};
-
 	filterGenre = a => {
+		this.setState({
+			isLoading: true,
+		});
 		this.state.genreDropDown.filter(async g => {
 			if (a.currentTarget.text === g.genre) {
-				await this.props.dispatch(novels.getNovels(`?genre=${g.id}`));
-				this.setState({
-					book: this.props.novels.novelData,
-				});
+				try {
+					this.getNovel(1, ``, '', `&genre=${g.genre_id}`);
+					this.setState({
+						novels: this.props.novels.novelData,
+						error: {
+							error: false,
+						},
+					});
+				} catch (error) {
+					this.setState({
+						error: this.props.novels.error,
+						isLoading: false,
+					});
+				}
 			}
 		});
 	};
 
 	searchBy = e => {
+		e.preventDefault();
 		this.setState({
 			searchBy: e.currentTarget.text.toLowerCase(),
+			searchByText: e.currentTarget.text,
 		});
-
 		console.log(e.currentTarget.text.toLowerCase());
 	};
 
 	changeSearch = e => {
 		this.setState({ searchVal: e.target.value });
 	};
-	onSearch = e => {
+	onSearch = async e => {
 		e.preventDefault();
+		const { searchBy, searchVal } = this.state;
 
-		switch (this.state.searchBy) {
+		switch (searchBy) {
 			case 'title':
-				const search = async p => {
-					await this.props.dispatch(novels.getNovels(`?title=${p}`));
+				try {
 					this.setState({
-						book: this.props.novels.novelData,
+						isLoading: true,
 					});
-				};
-
-				search(this.state.searchVal);
+					this.getNovel(1, `&${searchBy}=${searchVal}`, '', '');
+				} catch (error) {
+					this.setState({
+						error: this.props.novels.error,
+						isLoading: false,
+					});
+				}
 				break;
 			case 'author':
-				const au = async p => {
-					await this.props.dispatch(novels.getNovels(`?author=${p}`));
+				try {
 					this.setState({
-						book: this.props.novels.novelData,
+						isLoading: true,
 					});
-				};
-
-				au(this.state.searchVal);
+					this.getNovel(1, ``, `&${searchBy}=${searchVal}`, '');
+				} catch (error) {
+					this.setState({
+						error: this.props.novels.error,
+						isLoading: false,
+					});
+				}
 				break;
-
 			default:
-				const d = async p => {
-					await this.props.dispatch(novels.getNovels(`?title=${p}`));
+				try {
 					this.setState({
-						book: this.props.novels.novelData,
+						isLoading: true,
 					});
-				};
-
-				d(this.state.searchVal);
+					this.getNovel(1, `&title=${searchVal}`, '', '');
+				} catch (error) {
+					this.setState({
+						error: this.props.novels.error,
+						isLoading: false,
+					});
+				}
 				break;
 		}
 	};
 
 	render() {
-		//get current post
-		let indexOfLastPost = this.state.currentPage * this.state.postPerPage;
-		let indexOfFirstPost = indexOfLastPost - this.state.postPerPage;
-		let currentPost = this.state.book.slice(indexOfFirstPost, indexOfLastPost);
+		// get current post
+		M.AutoInit();
 
-		const {
-			title,
-			author,
-			image_url,
-			description,
-			novel_status,
-			genre,
-		} = this.state.tempBook;
+		console.log(this.state.user);
 
 		return (
 			<div className='home-page'>
+				<Sidenav user={this.state.user} />
 				<NaviBar onClickGenre={this.filterGenre} searchOpt={this.searchBy}>
 					<NavbarContent
+						searchBy={this.state.searchByText}
 						searchVal={this.state.searchVal}
 						onSearch={this.onSearch}
 						searchChange={this.changeSearch}
 					/>
 				</NaviBar>
+				<LoginModal />
+				<RegisterModal />
 
-				<LoadingOverlay
-					active={this.state.isOverLay}
-					spinner
-					text='Adding Data...'></LoadingOverlay>
-
-				<div className='carousel'>
-					{this.state.carouSel.map((book, id) => {
-						if (id <= 4) {
-							return (
-								<CarouselCard
-									alt={book.title.trim()}
-									key={book.id}
-									author={book.author}
-									title={book.title}
-									img={book.image_url}
-								/>
-							);
-						} else {
-							return null;
-						}
-					})}
-				</div>
-				<div className='container'>
-					<h4
-						style={{
-							marginBottom: '30px',
-							paddingLeft: '10px',
-						}}>
-						List Novels
-					</h4>
-					<Grid book={currentPost} />
-				</div>
-				<AddModal
-					modalTitle='Add Novel'
-					modalId='addNovelModal'
-					genre={genre}
-					title={title}
-					author={author}
-					image_url={image_url}
-					novel_status={novel_status}
-					description={description}
-					onChange={this.handleChange}
-					onSubmit={this.onSubmit.bind(this)}
-					sDropDown={this.state.statusDropDown}
-					gDropDown={this.state.genreDropDown}
+				<CarouselGrid
+					data={this.state.carouSel.result}
+					loading={this.state.isLoading}
 				/>
+				<div className='container'>
+					{this.state.error.error ? (
+						<h3>Cannot Find Specific Novel</h3>
+					) : (
+						<>
+							<h4
+								style={{
+									marginBottom: '30px',
+									paddingLeft: '10px',
+								}}>
+								List Novels
+							</h4>
+							<Grid
+								isLoading={this.state.isLoading}
+								book={this.state.novels.result}
+								user={this.state.user}
+							/>
+						</>
+					)}
+				</div>
 				<br />
 				<Pagination
-					totalPost={this.state.book.length}
-					postPerpage={this.state.postPerPage}
-					paginate={pageNum => {
-						this.setState({ currentPage: pageNum });
-					}}
+					totalPost={this.state.novels.totalData}
+					postPerpage={6}
+					paginate={num => this.getNovel(num)}
 				/>
 				<Footer />
 			</div>
@@ -255,9 +235,7 @@ class Home extends Component {
 const mapStateToProps = state => {
 	return {
 		novels: state.novels,
-		postNovel: state.postNovel,
 		genres: state.genres,
-		status: state.status,
 	};
 };
 

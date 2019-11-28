@@ -4,24 +4,6 @@ import logo from '../../Assets/icon.png';
 import { Link } from 'react-router-dom';
 
 const NavbarContent = props => {
-	// constructor() {
-	//   super();
-
-	//   this.state = {
-	//     searchVal: '',
-	//   };
-	// }
-
-	// change = e => {
-	//   this.setState({ searchVal: e.target.value });
-	// };
-
-	// onSearch = e => {
-	//   e.preventDefault();
-
-	// };
-
-	// render() {
 	return (
 		<div className='nav-wrapper z-depth-2 purple darken-3'>
 			<Link data-target='slide-out' className='sidenav-trigger'>
@@ -61,7 +43,7 @@ const NavbarContent = props => {
 
 				<li>
 					<Link className='dropdown-trigger white-text' data-target='all-times'>
-						Search By..
+						{props.searchBy}
 						<i className='material-icons right white-text'>arrow_drop_down</i>
 					</Link>
 				</li>
@@ -102,7 +84,6 @@ const NavbarContent = props => {
 			</ul>
 		</div>
 	);
-	// }
 };
 
 export default NavbarContent;

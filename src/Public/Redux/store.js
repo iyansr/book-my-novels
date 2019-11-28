@@ -5,7 +5,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import Reducers from './Reducers';
 
 const logger = createLogger();
-const middleware = applyMiddleware(promiseMiddleware);
+const middleware = applyMiddleware(logger, promiseMiddleware);
 const store = createStore(Reducers, middleware);
 
 export default store;

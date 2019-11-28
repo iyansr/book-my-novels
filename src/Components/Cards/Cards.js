@@ -1,6 +1,7 @@
 import React from 'react';
 import './Card.css';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 const Cards = props => {
 	const {
@@ -13,10 +14,11 @@ const Cards = props => {
 		badgeColor,
 		genre,
 	} = props;
+
 	return (
 		<div className='col s12 m4'>
 			<div
-				className='card z-depth-3'
+				className='card hoverable'
 				style={{
 					borderRadius: '12px',
 				}}>
@@ -35,7 +37,7 @@ const Cards = props => {
 				<div
 					className='card-content'
 					style={{
-						height: '200px',
+						height: '180px',
 					}}>
 					<p style={{ marginTop: '-5px' }}>
 						<span
@@ -53,7 +55,10 @@ const Cards = props => {
 					</p>
 					<br />
 					<Link
-						className='black-text'
+						className={classNames('black-text __card-title ', {
+							__card_title_disabled:
+								props.user.role !== 1 && props.user.role !== 2,
+						})}
 						to={to}
 						style={{
 							fontWeight: 'bold',
