@@ -5,8 +5,6 @@ import Axios from 'axios';
 export const status = () => {
 	return {
 		type: 'GET_STATUS',
-		payload: Axios.get(
-			'https://stormy-eyrie-12807.herokuapp.com/api/v2/status'
-		),
+		payload: Axios.get('https://bookmynovel-api.herokuapp.com/api/v2/status'),
 	};
 };
