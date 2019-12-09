@@ -11,7 +11,7 @@
     "eslint": "^6.6.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
-    "materialize-css": "^1.0.0-rc.2",
+    "materialize-css": "^1.0.0",
     "moment": "^2.24.0",
     "npm": "^6.13.1",
     "react": "^16.11.0",
